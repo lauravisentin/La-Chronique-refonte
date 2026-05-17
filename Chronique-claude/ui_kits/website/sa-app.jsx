@@ -22,10 +22,11 @@ function App() {
 
   // Home starts inside the cinematic intro (3.6× viewport tall).
   // Keep the nav transparent/dark while the cinema is on-screen.
-  const inCinema = route === 'home' && scrollY < (typeof window !== 'undefined' ? window.innerHeight * 2.6 : 0);
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 1;
+  const logoGoneY = vh * 2.6 * 0.80;
+  const inCinema = route === 'home' && scrollY < logoGoneY;
   const navDark = inCinema;
   // On home: nav hidden at the very start, fades in as the zoom begins, fully visible by mid-cinema.
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 1;
   const navFade = route === 'home'
     ? Math.max(0, Math.min(1, (scrollY - vh * 0.10) / (vh * 0.60)))
     : 1;
@@ -55,6 +56,8 @@ function App() {
           className="gift-embed"
           src="/carte-cadeau.html"
           title="Carte cadeau"
+          onMouseEnter={() => document.body.classList.add('is-gift-iframe-hot')}
+          onMouseLeave={() => document.body.classList.remove('is-gift-iframe-hot')}
         />
       </div>
     );

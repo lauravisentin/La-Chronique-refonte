@@ -90,12 +90,10 @@ function Cursor() {
    NAVIGATION
    ============================================================ */
 function Nav({ route, onNav, dark = false, fade = 1 }) {
-  const left = [
+  const links = [
     ['menu', 'La carte'],
     ['apropos', 'La maison'],
     ['salon', 'Salon Laurier'],
-  ];
-  const right = [
     ['carte-cadeau', 'Carte cadeau'],
     ['blogue', 'Blogue'],
     ['contact', 'Contact'],
@@ -103,16 +101,11 @@ function Nav({ route, onNav, dark = false, fade = 1 }) {
   return (
     <nav className={'nav' + (dark ? ' is-dark' : '')}
          style={{ opacity: fade, pointerEvents: fade < 0.05 ? 'none' : 'auto' }}>
-      <div className="nav__links nav__links--left">
-        {left.map(([k, l]) => (
-          <button key={k} className={'nav__link' + (route === k ? ' is-active' : '')} onClick={() => onNav(k)}>{l}</button>
-        ))}
-      </div>
       <div className="nav__brand" onClick={() => onNav('home')}>
         <Logo width={170} dark={dark} />
       </div>
-      <div className="nav__links nav__links--right">
-        {right.map(([k, l]) => (
+      <div className="nav__links">
+        {links.map(([k, l]) => (
           <button key={k} className={'nav__link' + (route === k ? ' is-active' : '')} onClick={() => onNav(k)}>{l}</button>
         ))}
         <a href="tel:5142713095" className="nav__phone">514·271·3095</a>
