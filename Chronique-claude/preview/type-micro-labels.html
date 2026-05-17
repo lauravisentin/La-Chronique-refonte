@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Type — Micro labels</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .mod { display: flex; flex-direction: column; gap: 6px; padding: 14px 18px; background: var(--lc-mist); border-left: 1px solid var(--lc-sage); }
+  .mc-ink   { font-family: var(--font-display); font-size: 11px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-ink); }
+  .mc-sage  { font-family: var(--font-display); font-size: 11px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-sage); }
+  .mc-stone { font-family: var(--font-display); font-size: 11px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); }
+  .body-mini { font-family: var(--font-ui); font-size: 12px; color: var(--lc-graphite); }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 14px;">Micro labels · 11 px, +0.22em tracking</div>
+  <div class="grid2">
+    <div class="mod">
+      <span class="mc-sage">Menu Signature</span>
+      <span class="body-mini">eyebrow · accent</span>
+    </div>
+    <div class="mod">
+      <span class="mc-ink">Réservation</span>
+      <span class="body-mini">eyebrow · ink</span>
+    </div>
+    <div class="mod">
+      <span class="mc-stone">Mise à jour le 13 mars 2026</span>
+      <span class="body-mini">caption · stone</span>
+    </div>
+    <div class="mod">
+      <span class="mc-ink">104 av. Laurier Ouest · Montréal</span>
+      <span class="body-mini">footer line</span>
+    </div>
+  </div>
+</body>
+</html>

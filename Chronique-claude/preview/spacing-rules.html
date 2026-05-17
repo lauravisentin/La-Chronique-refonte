@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rules &amp; dividers</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .col { gap: 24px; }
+  .ex { display: flex; flex-direction: column; gap: 8px; }
+  .lbl { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); }
+  .demo { padding: 14px 0; }
+  .hair-ink { border-top: 1px solid rgba(26,26,26,0.20); }
+  .hair-soft { border-top: 1px solid rgba(26,26,26,0.08); }
+  .rule-sage { display: block; width: 48px; height: 1px; background: var(--lc-sage); }
+  .rule-sage-center { margin: 0 auto; }
+  .section-title { font-family: var(--font-display); font-weight: 300; font-size: 22px; color: var(--lc-ink); text-align: center; }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 16px;">Rules &amp; dividers · all 1-px</div>
+  <div class="col">
+    <div class="ex">
+      <span class="lbl">Hairline (ink @ 20%)</span>
+      <div class="demo hair-ink"></div>
+    </div>
+    <div class="ex">
+      <span class="lbl">Soft hairline (ink @ 8%)</span>
+      <div class="demo hair-soft"></div>
+    </div>
+    <div class="ex">
+      <span class="lbl">Sage rule · 48 px, centered under section titles</span>
+      <div style="text-align: center;">
+        <div class="section-title">L'histoire</div>
+        <span class="rule-sage rule-sage-center" style="margin-top: 12px;"></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

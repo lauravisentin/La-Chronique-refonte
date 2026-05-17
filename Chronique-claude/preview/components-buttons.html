@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Buttons</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .row-btns { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .lbl { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); margin-bottom: 12px; }
+  .group { margin-bottom: 18px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 28px;
+    font-family: var(--font-display);
+    font-weight: 400; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.22em;
+    border: 1px solid var(--lc-ink);
+    background: transparent; color: var(--lc-ink);
+    cursor: pointer; border-radius: 0;
+    transition: background 0.22s, color 0.22s;
+  }
+  .btn:hover { background: var(--lc-ink); color: var(--lc-white); }
+  .btn--solid { background: var(--lc-ink); color: var(--lc-white); }
+  .btn--solid:hover { background: var(--lc-sage-deep); border-color: var(--lc-sage-deep); }
+  .btn--sage { border-color: var(--lc-sage); color: var(--lc-sage); }
+  .btn--sage:hover { background: var(--lc-sage); color: var(--lc-white); }
+  .btn--ghost { border-color: transparent; padding: 14px 0; }
+  .btn--ghost:hover { background: transparent; color: var(--lc-sage); border-color: transparent; }
+  .btn--sm { padding: 10px 18px; font-size: 11px; }
+</style>
+</head>
+<body class="card">
+  <div class="group">
+    <div class="lbl">Primary &middot; outlined ink, solid ink</div>
+    <div class="row-btns">
+      <button class="btn">Réservation</button>
+      <button class="btn btn--solid">Réservation</button>
+      <button class="btn btn--sage">Voir le menu</button>
+    </div>
+  </div>
+  <div class="group">
+    <div class="lbl">Sizes &amp; ghost</div>
+    <div class="row-btns">
+      <button class="btn btn--sm">M'inscrire</button>
+      <button class="btn btn--ghost">Voir le Salon Laurier →</button>
+    </div>
+  </div>
+</body>
+</html>

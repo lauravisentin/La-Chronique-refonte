@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Form inputs</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 22px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); }
+  .field input, .field select {
+    height: 44px; padding: 0 14px;
+    font-family: var(--font-body); font-size: 15px; color: var(--lc-ink);
+    background: var(--lc-white);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+  }
+  .field input:focus, .field select:focus {
+    outline: none; border-color: var(--lc-sage);
+    box-shadow: 0 0 0 3px rgba(123, 125, 98, 0.18);
+  }
+  .field--full { grid-column: span 2; }
+  .help { font-family: var(--font-ui); font-size: 11px; color: var(--lc-stone); margin-top: -2px; }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 14px;">Form inputs · réservation block</div>
+  <form class="grid2" onsubmit="return false;">
+    <div class="field">
+      <label>Nom</label>
+      <input type="text" placeholder="Votre nom" value="De Montigny" />
+    </div>
+    <div class="field">
+      <label>Téléphone</label>
+      <input type="tel" placeholder="514 000-0000" />
+    </div>
+    <div class="field">
+      <label>Nombre de personnes</label>
+      <select><option>2 personnes</option><option>4 personnes</option><option>6 personnes</option></select>
+    </div>
+    <div class="field">
+      <label>Date</label>
+      <input type="date" value="2026-05-22" />
+    </div>
+    <div class="field field--full">
+      <label>Courriel</label>
+      <input type="email" placeholder="vous@exemple.qc.ca" />
+      <span class="help">Nous vous enverrons une confirmation.</span>
+    </div>
+  </form>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Color — Semantic</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .row-line {
+    display: grid;
+    grid-template-columns: 24px 1fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .dot {
+    width: 24px; height: 24px;
+    border: 1px solid var(--hairline-soft);
+  }
+  .token {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--lc-ink);
+  }
+  .desc {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--lc-graphite);
+  }
+  .hex {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--lc-stone);
+    text-align: right;
+  }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 10px;">Semantic tokens</div>
+
+  <div class="row-line">
+    <div class="dot" style="background: #1A1A1A;"></div>
+    <div class="token">--fg-1</div>
+    <div class="desc">primary text</div>
+    <div class="hex">#1A1A1A</div>
+  </div>
+  <div class="row-line">
+    <div class="dot" style="background: #4F4F4D;"></div>
+    <div class="token">--fg-2</div>
+    <div class="desc">secondary text</div>
+    <div class="hex">#4F4F4D</div>
+  </div>
+  <div class="row-line">
+    <div class="dot" style="background: #8E8E89;"></div>
+    <div class="token">--fg-3</div>
+    <div class="desc">captions, meta</div>
+    <div class="hex">#8E8E89</div>
+  </div>
+  <div class="row-line">
+    <div class="dot" style="background: #7B7D62;"></div>
+    <div class="token">--accent</div>
+    <div class="desc">brand sage</div>
+    <div class="hex">#7B7D62</div>
+  </div>
+  <div class="row-line">
+    <div class="dot" style="background: rgba(26,26,26,0.20);"></div>
+    <div class="token">--hairline</div>
+    <div class="desc">divider, 1-px</div>
+    <div class="hex">ink @ 20%</div>
+  </div>
+  <div class="row-line" style="border: 0;">
+    <div class="dot" style="background: #8E2A1F;"></div>
+    <div class="token">--danger</div>
+    <div class="desc">errors only</div>
+    <div class="hex">#8E2A1F</div>
+  </div>
+</body>
+</html>

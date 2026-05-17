@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Type — Display ramp</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .ramp { display: flex; flex-direction: column; gap: 6px; }
+  .ramp__row { display: grid; grid-template-columns: 70px 1fr; align-items: baseline; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--hairline-soft); }
+  .ramp__row:last-child { border: 0; }
+  .ramp__tag { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); }
+  .ramp__val { font-family: var(--font-display); font-weight: 300; color: var(--lc-ink); line-height: 1.1; }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 12px;">Display ramp · Jost (200 / 300)</div>
+  <div class="ramp">
+    <div class="ramp__row">
+      <span class="ramp__tag">H1 · 56</span>
+      <span class="ramp__val" style="font-size: 56px; font-weight: 200;">Le bonheur est dans l'assiette</span>
+    </div>
+    <div class="ramp__row">
+      <span class="ramp__tag">H2 · 36</span>
+      <span class="ramp__val" style="font-size: 36px;">Menu Signature</span>
+    </div>
+    <div class="ramp__row">
+      <span class="ramp__tag">H3 · 22</span>
+      <span class="ramp__val" style="font-size: 22px; font-weight: 400;">Mises en bouche</span>
+    </div>
+    <div class="ramp__row">
+      <span class="ramp__tag">H4 · 18</span>
+      <span class="ramp__val" style="font-size: 18px; font-weight: 500; letter-spacing: 0.02em;">Salon Laurier</span>
+    </div>
+  </div>
+</body>
+</html>

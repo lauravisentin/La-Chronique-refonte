@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Type — UI sans</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .ui-row { display: grid; grid-template-columns: 90px 1fr 80px; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--hairline-soft); }
+  .ui-row:last-child { border: 0; }
+  .ui-tag { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); }
+  .ui-val { font-family: var(--font-ui); color: var(--lc-ink); }
+  .ui-spec { font-family: var(--font-ui); font-size: 11px; color: var(--lc-stone); text-align: right; }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 10px;">UI sans · Jost (regular weights)</div>
+  <div class="ui-row">
+    <span class="ui-tag">Body L</span>
+    <span class="ui-val" style="font-size: 18px;">Réserver une table pour deux</span>
+    <span class="ui-spec">18 / 1.6</span>
+  </div>
+  <div class="ui-row">
+    <span class="ui-tag">Body</span>
+    <span class="ui-val" style="font-size: 16px;">Le restaurant est ouvert du mardi au samedi</span>
+    <span class="ui-spec">16 / 1.6</span>
+  </div>
+  <div class="ui-row">
+    <span class="ui-tag">Body S</span>
+    <span class="ui-val" style="font-size: 14px;">Frais de service de 20 % pour groupes de 6 et plus</span>
+    <span class="ui-spec">14 / 1.55</span>
+  </div>
+  <div class="ui-row">
+    <span class="ui-tag">Caption</span>
+    <span class="ui-val" style="font-size: 12px; color: var(--lc-stone);">Crédit photo · Fany Ducharme</span>
+    <span class="ui-spec">12 / 1.5</span>
+  </div>
+</body>
+</html>

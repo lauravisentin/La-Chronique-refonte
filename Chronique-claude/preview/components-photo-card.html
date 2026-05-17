@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Photo card</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pcard { position: relative; aspect-ratio: 165 / 107; background-size: cover; background-position: center; cursor: pointer; overflow: hidden; }
+  .pcard:hover .plus { opacity: 1; transform: scale(1); }
+  .pcard:hover::after { opacity: 1; }
+  .pcard::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(26, 26, 26, 0.30);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+  .plus {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+    opacity: 0.85;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  .plus svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 1.25; fill: none; }
+  .cap { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lc-stone); margin-top: 10px; }
+</style>
+</head>
+<body class="card">
+  <div class="label" style="margin-bottom: 12px;">Gallery thumbnail · the `+` motif on hover</div>
+  <div class="gallery">
+    <div class="pcard" style="background-image: url('/assets/dining-room-press.jpg')">
+      <div class="plus"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg></div>
+    </div>
+    <div class="pcard" style="background-image: url('/assets/dining-room-collage.jpg')">
+      <div class="plus"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg></div>
+    </div>
+    <div class="pcard" style="background-image: url('/assets/facade-day.jpg')">
+      <div class="plus"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg></div>
+    </div>
+  </div>
+  <div class="cap">Hover any thumbnail · ink wash + plus</div>
+</body>
+</html>

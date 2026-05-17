@@ -1,0 +1,63 @@
+/* Shared card chrome — applied to every /preview/*.html */
+@import url("../colors_and_type.css");
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.card {
+  width: 700px;
+  padding: 28px 32px;
+  background: var(--bg-1);
+}
+
+body.card--paper { background: var(--bg-2); }
+body.card--mist  { background: var(--bg-3); }
+body.card--ink   { background: var(--lc-ink); color: var(--lc-white); }
+body.card--sage  { background: var(--lc-sage); color: var(--lc-white); }
+
+.row  { display: flex; align-items: center; gap: 20px; }
+.col  { display: flex; flex-direction: column; gap: 12px; }
+.grid { display: grid; gap: 12px; }
+
+/* Sub-label used on cards above each spec */
+.label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--lc-stone);
+}
+
+/* Color swatch tiles */
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.swatch__tile {
+  height: 64px;
+  border-radius: 0;
+  border: 1px solid var(--hairline-soft);
+}
+.swatch__name {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lc-ink);
+}
+.swatch__hex {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--lc-stone);
+}

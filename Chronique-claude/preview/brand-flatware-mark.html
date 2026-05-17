@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Logo on grounds</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body.card { padding: 28px 32px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: stretch; }
+  .tile {
+    border: 1px solid var(--hairline-soft);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+  }
+  .tile--white { background: var(--lc-white); }
+  .tile--paper { background: var(--lc-paper); }
+  .tile--ink   { background: var(--lc-ink); }
+  .tile img { width: 78%; }
+  .tile--ink img {
+    filter: brightness(0) saturate(100%) invert(85%) sepia(8%) saturate(420%) hue-rotate(34deg) brightness(95%) contrast(80%);
+  }
+  .tile__cap {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--lc-stone);
+  }
+  .tile--ink .tile__cap { color: var(--lc-sage-soft); }
+</style>
+</head>
+<body class="card">
+  <div class="row3">
+    <div class="tile tile--white">
+      <img src="/assets/logo-wordmark.png" alt="">
+      <span class="tile__cap">On white</span>
+    </div>
+    <div class="tile tile--paper">
+      <img src="/assets/logo-wordmark.png" alt="">
+      <span class="tile__cap">On paper</span>
+    </div>
+    <div class="tile tile--ink">
+      <img src="/assets/logo-wordmark.png" alt="">
+      <span class="tile__cap">On ink</span>
+    </div>
+  </div>
+</body>
+</html>

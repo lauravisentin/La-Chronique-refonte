@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Cartes — perspective 3D</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body.card {
+    background: var(--lc-paper);
+    padding: 32px;
+    perspective: 1400px;
+    overflow: hidden;
+  }
+  .label { color: var(--lc-stone); margin-bottom: 18px; }
+  .stage {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    transform-style: preserve-3d;
+  }
+  .dish {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: var(--lc-ink);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    transition: transform 0.6s cubic-bezier(.2,.0,.2,1), box-shadow 0.6s cubic-bezier(.2,.0,.2,1);
+    cursor: pointer;
+    box-shadow:
+      0 1px 2px rgba(26,26,26,0.06),
+      0 20px 50px -16px rgba(26,26,26,0.25);
+  }
+  .dish:nth-child(1) { animation: float-a 8s ease-in-out infinite; }
+  .dish:nth-child(2) { animation: float-b 9s ease-in-out infinite; }
+  .dish:nth-child(3) { animation: float-c 10s ease-in-out infinite; }
+  .dish:nth-child(4) { animation: float-d 11s ease-in-out infinite; }
+
+  /* corner radii applied per card — title goes from sharp to soft */
+  .dish--r0 { border-radius: 0; }
+  .dish--r2 { border-radius: 2px; }
+  .dish--r4 { border-radius: 4px; }
+  .dish--r6 { border-radius: 6px; }
+
+  .dish:hover {
+    transform: rotateX(-8deg) rotateY(10deg) translateZ(20px);
+    box-shadow:
+      0 1px 2px rgba(26,26,26,0.06),
+      0 60px 120px -30px rgba(26,26,26,0.55);
+  }
+
+  .dish__bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transform: translateZ(-20px) scale(1.08);
+    transition: transform 0.6s cubic-bezier(.2,.0,.2,1), filter 0.6s ease;
+    filter: saturate(0.92) brightness(0.85);
+  }
+  .dish:hover .dish__bg {
+    transform: translateZ(0) scale(1.12);
+    filter: saturate(1) brightness(1);
+  }
+
+  .dish__veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(26,26,26,0.7));
+    opacity: 0.95;
+    transition: opacity 0.5s ease;
+  }
+  .dish:hover .dish__veil { opacity: 0.65; }
+
+  .dish__num {
+    position: absolute; top: 14px; left: 14px;
+    font-family: var(--font-serif); font-style: italic; font-size: 22px;
+    color: var(--lc-sage-soft);
+    transform: translateZ(30px);
+    line-height: 1;
+  }
+
+  .dish__copy {
+    position: absolute; left: 14px; right: 14px; bottom: 14px;
+    color: var(--lc-white);
+    transform: translateZ(40px);
+    transition: transform 0.6s cubic-bezier(.2,.0,.2,1);
+  }
+  .dish:hover .dish__copy { transform: translateZ(60px); }
+  .dish__name {
+    font-family: var(--font-serif); font-style: italic; font-size: 13px;
+    line-height: 1.25; letter-spacing: -0.005em;
+  }
+  .dish__radius {
+    font-family: var(--font-display); font-size: 8px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--lc-sage-soft); margin-top: 6px;
+  }
+
+  @keyframes float-a { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes float-b { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(3px); } }
+  @keyframes float-c { 0%, 100% { transform: translateY(3px); } 50% { transform: translateY(-3px); } }
+  @keyframes float-d { 0%, 100% { transform: translateY(6px); } 50% { transform: translateY(0); } }
+
+  .hint {
+    margin-top: 18px;
+    text-align: center;
+    font-family: var(--font-serif); font-style: italic; font-size: 12px; color: var(--lc-stone);
+  }
+</style>
+</head>
+<body class="card">
+  <div class="label">Cartes en perspective · l’expérience du plat avant de goûter</div>
+
+  <div class="stage" id="stage">
+    <div class="dish dish--r0" style="--rx: 0; --ry: 0;">
+      <div class="dish__bg" style="background-image: url('/assets/dining-room-press.jpg');"></div>
+      <div class="dish__veil"></div>
+      <div class="dish__num">I</div>
+      <div class="dish__copy">
+        <div class="dish__name">Homard / Asperge / Sauce&nbsp;américaine</div>
+        <div class="dish__radius">Radius · 0</div>
+      </div>
+    </div>
+    <div class="dish dish--r2">
+      <div class="dish__bg" style="background-image: url('/assets/dining-room-collage.jpg');"></div>
+      <div class="dish__veil"></div>
+      <div class="dish__num">II</div>
+      <div class="dish__copy">
+        <div class="dish__name">Flétan / Poireaux / Beurre&nbsp;blanc</div>
+        <div class="dish__radius">Radius · 2 px</div>
+      </div>
+    </div>
+    <div class="dish dish--r4">
+      <div class="dish__bg" style="background-image: url('/assets/facade-night.webp');"></div>
+      <div class="dish__veil"></div>
+      <div class="dish__num">III</div>
+      <div class="dish__copy">
+        <div class="dish__name">Foie&nbsp;gras / Choux / Bleuets</div>
+        <div class="dish__radius">Radius · 4 px</div>
+      </div>
+    </div>
+    <div class="dish dish--r6">
+        <div class="dish__bg" style="background-image: url('/assets/dining-room-press.jpg');"></div>
+      <div class="dish__veil"></div>
+      <div class="dish__num">IV</div>
+      <div class="dish__copy">
+        <div class="dish__name">Bœuf / Courge / Jus&nbsp;truffé</div>
+        <div class="dish__radius">Radius · 6 px</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">Survolez chaque carte · l’inclinaison révèle l’assiette</div>
+
+  <script>
+    // Pointer-driven 3D tilt for each card
+    document.querySelectorAll('#stage .dish').forEach(card => {
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;   // 0..1
+        const y = (e.clientY - r.top) / r.height;   // 0..1
+        const rx = (0.5 - y) * 18;                  // -9 .. 9
+        const ry = (x - 0.5) * 22;                  // -11 .. 11
+        card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(20px)`;
+        card.style.animationPlayState = 'paused';
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+        card.style.animationPlayState = 'running';
+      });
+    });
+  </script>
+</body>
+</html>

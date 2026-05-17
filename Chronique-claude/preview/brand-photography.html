@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Brand photography</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body.card { padding: 0; width: 700px; }
+  .grid4 {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2px;
+  }
+  .grid4 .img {
+    aspect-ratio: 4/3;
+    background-size: cover;
+    background-position: center;
+  }
+  .tall { grid-row: span 2; aspect-ratio: auto; height: 100%; }
+</style>
+</head>
+<body class="card">
+  <div class="grid4">
+    <div class="img tall" style="background-image: url('/assets/facade-night.webp')"></div>
+    <div class="img" style="background-image: url('/assets/dining-room-press.jpg')"></div>
+    <div class="img" style="background-image: url('/assets/signage-detail.jpg')"></div>
+    <div class="img" style="background-image: url('/assets/dining-room-collage.jpg')"></div>
+    <div class="img" style="background-image: url('/assets/facade-day.jpg')"></div>
+  </div>
+</body>
+</html>
