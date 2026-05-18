@@ -7,7 +7,7 @@ const { useState, useEffect, useRef } = React;
 function Logo({ width = 170, dark = false, onClick }) {
   return (
     <img
-      src="/assets/logo-wordmark.png"
+      src="../../assets/logo-wordmark.png"
       alt="Restaurant la chronique"
       onClick={onClick}
       style={{
@@ -31,7 +31,7 @@ function Curtain() {
   }, []);
   return (
     <div className={'curtain' + (out ? ' is-out' : '')}>
-      <img className="curtain__mark" src="/assets/logo-wordmark.png" alt="" />
+      <img className="curtain__mark" src="../../assets/logo-wordmark.png" alt="" />
       <div className="curtain__since">Depuis 1995 · Mile-end · Montréal</div>
     </div>
   );
@@ -332,7 +332,7 @@ function CinemaIntro({ onEnter }) {
                opacity: facadeOp,
                transform: `scale(${facadeKB})`,
                filter: `brightness(${facadeBright}) saturate(0.92)`,
-               backgroundImage: "url('/assets/facade-night.webp')",
+               backgroundImage: "url('../../assets/facade-night.webp')",
                backgroundPosition: 'center center',
              }} />
         <div className="cinema__layer cinema__layer--interior"
@@ -340,7 +340,7 @@ function CinemaIntro({ onEnter }) {
                opacity: interiorOp,
                transform: `scale(${interiorKB})`,
                filter: `brightness(${interiorBright})`,
-               backgroundImage: "url('/assets/dining-room-press.jpg')",
+               backgroundImage: "url('../../assets/dining-room-press.jpg')",
              }} />
 
         <div className="cinema__vignette"
@@ -353,7 +353,7 @@ function CinemaIntro({ onEnter }) {
                transform: `translate(-50%, calc(-50% + ${wobbleY}px)) scale(${zoom})`,
                opacity: logoOp,
              }}>
-          <img src="/assets/logo-wordmark.png" alt="Restaurant la chronique" />
+          <img src="../../assets/logo-wordmark.png" alt="Restaurant la chronique" />
         </div>
 
         <div className="cinema__since" style={{ opacity: sinceOp }}>
@@ -370,13 +370,9 @@ function CinemaIntro({ onEnter }) {
 
         <div className="cinema__arrival"
              style={{ opacity: arrivalOp, transform: `translateY(${arrivalY}px)` }}>
-          <div className="cinema__arrival-eyebrow">Bienvenue · vous êtes entré</div>
-          <div className="cinema__arrival-line">
-            Le bonheur est <em>dans l’assiette.</em>
-          </div>
-          <button className="cinema__arrival-cta" onClick={onEnter}>
-            Réservez votre table →
-          </button>
+          <img className="cinema__arrival-michelin"
+               src="../../assets/michelin-2025.png"
+               alt="Recommandé par le Guide Michelin 2025" />
         </div>
       </div>
     </section>

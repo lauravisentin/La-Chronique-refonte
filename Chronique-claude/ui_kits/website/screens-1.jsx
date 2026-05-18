@@ -1,5 +1,34 @@
 /* global React, CinemaIntro, PressRail */
-const { useState: useStateS1 } = React;
+const { useState: useStateS1, useEffect: useEffectS1, useRef: useRefS1 } = React;
+
+/* ============================================================
+   StoryBeat — reveals child content with fade + lift on scroll-in.
+   Uses IntersectionObserver, fires once, then disconnects.
+   ============================================================ */
+function StoryBeat({ children, className = '', delay = 0, threshold = 0.22, as: As = 'div' }) {
+  const ref = useRefS1(null);
+  const [inView, setInView] = useStateS1(false);
+  useEffectS1(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setInView(true);
+        io.disconnect();
+      }
+    }, { threshold, rootMargin: '0px 0px -10% 0px' });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <As
+      ref={ref}
+      className={'story__beat ' + className + (inView ? ' is-in' : '')}
+      style={{ transitionDelay: inView ? `${delay}ms` : '0ms' }}
+    >
+      {children}
+    </As>
+  );
+}
 
 /* ============================================================
    HOME — editorial / cinematic / luxurious
@@ -11,107 +40,112 @@ function Home({ onNav }) {
 
       <PressRail />
 
-      {/* ------------------- Histoire ------------------- */}
-      <section className="histoire">
-        <div className="histoire__rail">
-          <div className="histoire__rail-num">1995</div>
-          <div className="histoire__rail-line" />
-          <div className="histoire__rail-now">Aujourd’hui</div>
-        </div>
-        <div className="histoire__grid">
-          <div className="histoire__image-stack">
-            <div className="img img--a" style={{ backgroundImage: "url('/assets/dining-room-press.jpg')" }} />
-            <div className="img img--b" style={{ backgroundImage: "url('/assets/historique-illustration.png')" }} />
-            <div className="img--caption">Photo · Fany Ducharme</div>
-          </div>
-          <div className="histoire__body">
-            <div className="histoire__chapter">Chapitre <span>I</span> L’histoire</div>
-            <h2 className="histoire__title">Petite resto,<br />grande cuisine.</h2>
-            <p className="histoire__p">
-              Mars 1995. Après quelques années passées dans divers établissements
-              réputés du Québec, Marc De Canck fait le grand saut et ouvre son propre
-              restaurant — un petit local de la rue Laurier ouest, près de Saint-Laurent.
-            </p>
-            <p className="histoire__p">
-              Sous des allures simples et sobres de petit bistro, le jeune chef fait
-              découvrir une cuisine inspirée d’une qualité irréprochable. Petit à petit,
-              la maison se drape de nappes blanches. La table grande. <em>Le bonheur,
-              déjà, est dans l’assiette.</em>
-            </p>
-            <div className="histoire__cta">
-              <button className="btn btn--sage" onClick={() => onNav('apropos')}>Lire la suite →</button>
+      {/* ------------------- Invitations — three passages + Salon Laurier ------------------- */}
+      <section className="invitations">
+        <header className="invitations__head">
+          <span className="invitations__eyebrow">
+            <span className="invitations__eyebrow-rule" />
+            <span>Chapitre I</span>
+            <span className="invitations__eyebrow-dot">·</span>
+            <span className="invitations__eyebrow-name">L’invitation</span>
+          </span>
+          <h2 className="invitations__title">Trois passages,<br /><em>une même table.</em></h2>
+        </header>
+
+        <div className="invitations__triptych">
+          <StoryBeat as="a" className="passage" onClick={() => onNav('menu')} role="link" tabIndex={0}>
+            <div className="passage__rail"><span>I</span><i /></div>
+            <div className="passage__img">
+              <img src="../../assets/MG_3026_plat.jpg" alt="La carte" />
             </div>
-          </div>
+            <div className="passage__meta">
+              <span className="passage__kicker">La carte</span>
+              <span className="passage__line">Menu Signature · quatre temps</span>
+            </div>
+          </StoryBeat>
+
+          <StoryBeat as="a" className="passage" onClick={() => onNav('apropos')} role="link" tabIndex={0} delay={120}>
+            <div className="passage__rail"><span>II</span><i /></div>
+            <div className="passage__img">
+              <img src="../../assets/marc-de-canck-olivier-de-montigny.png" alt="Marc De Canck et Olivier de Montigny" />
+            </div>
+            <div className="passage__meta">
+              <span className="passage__kicker">La maison</span>
+              <span className="passage__line">Marc De Canck · Olivier de Montigny</span>
+            </div>
+          </StoryBeat>
+
+          <StoryBeat as="a" className="passage" onClick={() => onNav('reservation')} role="link" tabIndex={0} delay={240}>
+            <div className="passage__rail"><span>III</span><i /></div>
+            <div className="passage__img">
+              <img src="../../assets/dining-room-press.jpg" alt="Réservation" />
+            </div>
+            <div className="passage__meta">
+              <span className="passage__kicker">La table</span>
+              <span className="passage__line">Réservation · midi &amp; soir</span>
+            </div>
+          </StoryBeat>
         </div>
+
+        {/* Salon Laurier — split portal, image left + ink panel right */}
+        <StoryBeat as="a" className="salon" onClick={() => onNav('salon')} role="link" tabIndex={0}>
+          <div className="salon__img">
+            <img src="../../assets/dining-room-collage.jpg" alt="Salon Laurier" />
+          </div>
+          <div className="salon__panel">
+            <span className="salon__eyebrow">
+              <span className="salon__eyebrow-rule" />
+              Une pièce à part
+            </span>
+            <h3 className="salon__title">Salon <em>Laurier.</em></h3>
+            <p className="salon__lead">
+              Une salle privée pour vingt convives, drapée de chêne et de lin blanc.
+              Pour les signatures, les anniversaires, et les soirées qui restent.
+            </p>
+            <span className="salon__seal">
+              <span>Découvrir le salon</span>
+              <i className="salon__seal-line" />
+            </span>
+          </div>
+        </StoryBeat>
       </section>
 
-      {/* ------------------- Carte (with plate image-slots) ------------------- */}
+      {/* ------------------- Carte — minimal trio of plates ------------------- */}
       <section className="carte">
-        <div className="carte__bg">Signature</div>
         <div className="carte__inner">
-          <div className="carte__head">
-            <div>
-              <div className="carte__head-eyebrow">Chapitre II · La carte</div>
-              <h2 className="carte__head-title">Quatre temps,<br />un menu dégustation.</h2>
-            </div>
-            <div className="carte__head-meta">
-              Menu Signature
-              <strong>145 $</strong>
-              avec accord mets &amp; vins
-              <strong>250 $</strong>
-            </div>
-          </div>
+          <header className="carte__head">
+            <div className="carte__head-eyebrow">Chapitre II · La carte</div>
+            <h2 className="carte__head-title">Un menu dégustation,<br /><em>quatre temps.</em></h2>
+          </header>
 
           <div className="plates">
-            <div className="plate" onClick={() => onNav('menu')}>
-              <div className="plate__slot">
-                <image-slot id="plate-1" placeholder="Photo du plat" shape="rect"></image-slot>
-              </div>
-              <div>
-                <div className="plate__num">I</div>
-                <div className="plate__name">Homard du Québec / Asperge verte / Sauce américaine</div>
-                <div className="plate__pair">Menetou-Salon · Domaine Pellé · 2023</div>
-              </div>
-            </div>
-            <div className="plate" onClick={() => onNav('menu')}>
-              <div className="plate__slot">
-                <image-slot id="plate-2" placeholder="Photo du plat" shape="rect"></image-slot>
-              </div>
-              <div>
-                <div className="plate__num">II</div>
-                <div className="plate__name">Flétan de l’Atlantique / Poireaux / Beurre blanc</div>
-                <div className="plate__pair">Niepoort · Redoma Reserva · 2023</div>
-              </div>
-            </div>
-            <div className="plate" onClick={() => onNav('menu')}>
-              <div className="plate__slot">
-                <image-slot id="plate-3" placeholder="Photo du plat" shape="rect"></image-slot>
-              </div>
-              <div>
-                <div className="plate__num">III</div>
-                <div className="plate__name">Foie gras de canard / Choux rouge / Bleuets</div>
-                <div className="plate__pair">Bachelet-Monnot · Maranges 1<sup>er</sup> cru · 2022</div>
-              </div>
-            </div>
-            <div className="plate" onClick={() => onNav('menu')}>
-              <div className="plate__slot">
-                <image-slot id="plate-4" placeholder="Photo du plat" shape="rect"></image-slot>
-              </div>
-              <div>
-                <div className="plate__num">IV</div>
-                <div className="plate__name">Bœuf Limousin du Québec / Courge musquée / Jus truffé</div>
-                <div className="plate__pair">Petit Figeac · Saint-Émilion Grand Cru · 2021</div>
-              </div>
-            </div>
+            <figure className="plate" onClick={() => onNav('menu')}>
+              <img className="plate__img" src="../../assets/MG_3026_plat.jpg" alt="" />
+              <figcaption className="plate__cap">
+                <span className="plate__num">i.</span>
+                <span className="plate__name">Crevette &amp; pétoncle, riz au safran</span>
+              </figcaption>
+            </figure>
+            <figure className="plate" onClick={() => onNav('menu')}>
+              <img className="plate__img" src="../../assets/MG_3055_plat.jpeg" alt="" />
+              <figcaption className="plate__cap">
+                <span className="plate__num">ii.</span>
+                <span className="plate__name">Magret de canard, artichaut, jus court</span>
+              </figcaption>
+            </figure>
+            <figure className="plate" onClick={() => onNav('menu')}>
+              <img className="plate__img" src="../../assets/IMG_8851_plat.jpg" alt="" />
+              <figcaption className="plate__cap">
+                <span className="plate__num">iii.</span>
+                <span className="plate__name">Bœuf Limousin, foie gras, jus truffé</span>
+              </figcaption>
+            </figure>
           </div>
 
           <div className="carte__foot">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: 10, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'var(--lc-sage-soft)' }}>Mise à jour</span>
-              <strong style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 22, color: 'var(--lc-white)', fontWeight: 400 }}>13 mars 2026</strong>
-            </div>
-            <button className="btn btn--light" onClick={() => onNav('menu')}>
-              Découvrir le menu complet →
+            <button className="carte__cta" onClick={() => onNav('menu')}>
+              Voir le menu complet
+              <span aria-hidden="true">→</span>
             </button>
           </div>
         </div>
@@ -121,7 +155,7 @@ function Home({ onNav }) {
       <section className="agenda">
         <div className="agenda__inner">
           <div className="agenda__head">
-            <div className="agenda__head-eyebrow">Chapitre IV · Événements</div>
+            <div className="agenda__head-eyebrow">Chapitre III · Événements</div>
             <h2 className="agenda__head-title">Les soirées<br /><em>d’exception.</em></h2>
             <button className="agenda__head-link" onClick={() => onNav('blogue')}>Tout voir →</button>
           </div>
@@ -178,7 +212,7 @@ function Home({ onNav }) {
             </div>
           </div>
           <figure className="address__visual">
-            <img src="/assets/facade-day.jpg" alt="Façade du restaurant La Chronique" />
+            <img src="../../assets/facade-day.jpg" alt="Façade du restaurant La Chronique" />
           </figure>
         </div>
       </section>

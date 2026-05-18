@@ -3,7 +3,7 @@
    Editorial · cinematic · restrained
    Builds on /colors_and_type.css.
    ================================================================ */
-@import url("/colors_and_type.css");
+@import url("../../colors_and_type.css");
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: var(--lc-white); color: var(--fg-1); }
@@ -217,24 +217,22 @@ body.is-gift-iframe-hot .cursor-dot {
   50%      { transform: translateY(6px);  opacity: 1; }
 }
 
-/* Arrival caption — "vous êtes entré" moment as the interior reveals */
+/* Arrival — Michelin 2025 emblem fades + slides up as the doorway opens */
 .cinema__arrival {
-  position: absolute; left: 56px; bottom: 56px; z-index: 5;
-  color: var(--lc-white);
-  display: flex; flex-direction: column; gap: 16px;
+  position: absolute; right: 56px; bottom: 56px; z-index: 5;
   will-change: opacity, transform;
+  pointer-events: none;
 }
-.cinema__arrival-eyebrow { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--lc-sage-soft); display: flex; align-items: center; gap: 14px; }
-.cinema__arrival-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: currentColor; }
-.cinema__arrival-line { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(28px, 3.4vw, 48px); line-height: 1.15; letter-spacing: -0.012em; max-width: 16ch; }
-.cinema__arrival-cta {
-  margin-top: 8px;
-  font-family: var(--font-display); font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
-  background: none; border: 0; padding: 6px 0; color: var(--lc-white);
-  border-bottom: 1px solid var(--lc-white); cursor: pointer; align-self: flex-start;
-  transition: color 0.3s, border-color 0.3s;
+.cinema__arrival-michelin {
+  display: block;
+  width: 132px; height: 132px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 32px rgba(0,0,0,0.45));
 }
-.cinema__arrival-cta:hover { color: var(--lc-sage-soft); border-bottom-color: var(--lc-sage-soft); }
+@media (max-width: 720px) {
+  .cinema__arrival { right: 24px; bottom: 24px; }
+  .cinema__arrival-michelin { width: 96px; height: 96px; }
+}
 
 /* ============================================================
    HERO — cinematic. Single image, slow Ken Burns, fade.
@@ -295,108 +293,355 @@ body.is-gift-iframe-hot .cursor-dot {
 .hero__tick.is-on { background: var(--lc-white); height: 22px; }
 
 /* ============================================================
-   Press rail — credentials immediately below hero
+   Press rail — credentials immediately below hero.
+   Sage-tint band gives the credentials a luxurious eyebrow pause
+   between the dark cinema entrance and the white triptych below.
    ============================================================ */
 .press {
-  background: var(--lc-white); padding: 56px 56px;
-  border-bottom: 1px solid var(--hairline-soft);
+  background: var(--lc-sage-tint);
+  padding: 72px 56px;
+  border-top: 1px solid rgba(133, 122, 102, 0.18);
+  border-bottom: 1px solid rgba(133, 122, 102, 0.18);
 }
 .press__inner { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 56px; justify-content: space-between; }
-.press__label { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--lc-stone); white-space: nowrap; }
+.press__label { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--lc-sage-deep); white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; }
+.press__label::before { content: ''; display: inline-block; width: 28px; height: 1px; background: currentColor; }
 .press__items { display: flex; gap: 56px; align-items: center; flex-wrap: wrap; }
-.press__item { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 22px; color: var(--lc-graphite); letter-spacing: -0.005em; }
-.press__item small { display: block; font-family: var(--font-display); font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--lc-sage); font-style: normal; margin-top: 4px; }
+.press__item { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 22px; color: var(--lc-ink); letter-spacing: -0.005em; }
+.press__item small { display: block; font-family: var(--font-display); font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--lc-sage-deep); font-style: normal; margin-top: 4px; }
 
 /* ============================================================
-   Histoire — chapter card with vertical year rail
+   Invitations — three passages (carte / maison / table) + Salon Laurier
+   Editorial triptych, then a split portal panel for the private room.
    ============================================================ */
-.histoire {
-  position: relative; background: var(--lc-white); padding: 200px 56px;
-}
-.histoire__rail {
-  position: absolute; left: 40px; top: 200px; bottom: 200px;
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-}
-.histoire__rail-num {
-  writing-mode: vertical-rl; transform: rotate(180deg);
-  font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 56px; color: var(--lc-sage); letter-spacing: 0.04em; line-height: 1;
-}
-.histoire__rail-line { width: 1px; flex: 1; background: linear-gradient(180deg, var(--lc-sage), transparent); min-height: 220px; }
-.histoire__rail-now {
-  writing-mode: vertical-rl;
-  font-family: var(--font-display); font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--lc-stone);
-}
-
-.histoire__grid {
-  display: grid; grid-template-columns: 1.1fr 1fr;
-  gap: 112px; max-width: 1180px; margin: 0 auto; align-items: center;
-}
-.histoire__image-stack { position: relative; height: 720px; }
-.histoire__image-stack .img {
-  position: absolute; background-size: cover; background-position: center; box-shadow: 0 40px 80px -24px rgba(26,26,26,0.30);
-}
-.histoire__image-stack .img--a { width: 68%; height: 76%; top: 0; left: 0; }
-.histoire__image-stack .img--b { width: 50%; height: 56%; bottom: 0; right: 0; }
-.histoire__image-stack .img--caption {
-  position: absolute; bottom: -36px; right: 0;
-  font-family: var(--font-display); font-size: 9px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--lc-stone);
-}
-.histoire__body { max-width: 480px; }
-.histoire__chapter { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--lc-sage); margin-bottom: 22px; display: flex; align-items: center; gap: 18px; }
-.histoire__chapter::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--lc-sage); }
-.histoire__chapter span { font-family: var(--font-serif); font-style: italic; font-size: 16px; letter-spacing: 0.04em; text-transform: none; color: var(--lc-sage); }
-.histoire__title {
-  font-family: var(--font-serif); font-style: italic; font-weight: 400;
-  font-size: clamp(38px, 4.2vw, 64px); line-height: 1.1; letter-spacing: -0.012em;
-  color: var(--lc-ink); margin: 0 0 32px;
-}
-.histoire__p {
-  font-family: var(--font-serif); font-size: 18px; line-height: 1.9;
-  color: var(--lc-graphite); margin: 0 0 18px; text-wrap: pretty;
-}
-.histoire__p:first-of-type::first-letter {
-  font-family: var(--font-serif); font-style: italic; font-weight: 400;
-  font-size: 64px; line-height: 0.85; color: var(--lc-sage);
-  float: left; padding: 6px 12px 0 0; margin-top: 6px;
-}
-.histoire__cta { margin-top: 40px; }
-
-/* ============================================================
-   Carte — dark, signature dishes, with PLATE IMAGE SLOTS
-   ============================================================ */
-.carte { background: var(--lc-ink); color: var(--lc-white); padding: 200px 56px; position: relative; overflow: hidden; }
-.carte__bg {
-  position: absolute; right: -120px; top: 50%; transform: translateY(-50%);
-  font-family: var(--font-serif); font-style: italic; font-weight: 400;
-  font-size: 36vw; color: rgba(255,255,255,0.022); line-height: 1; user-select: none; pointer-events: none;
-  letter-spacing: -0.05em;
-}
-.carte__inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
-.carte__head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end; margin-bottom: 112px; }
-.carte__head-eyebrow { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--lc-sage-soft); margin-bottom: 24px; display: flex; align-items: center; gap: 18px; }
-.carte__head-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--lc-sage-soft); }
-.carte__head-title { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(44px, 5.4vw, 84px); line-height: 1.05; max-width: 14ch; letter-spacing: -0.015em; }
-.carte__head-meta { text-align: right; font-family: var(--font-display); font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--lc-sage-soft); line-height: 2.4; }
-.carte__head-meta strong { display: block; font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 32px; color: var(--lc-white); letter-spacing: 0; text-transform: none; margin: 4px 0 24px; }
-
-/* Plate showcase — 4 image slots in 2x2 with editorial copy */
-.plates { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-bottom: 88px; }
-.plate { display: flex; flex-direction: column; gap: 18px; cursor: pointer; }
-.plate__slot {
-  width: 100%; aspect-ratio: 4/5;
-  background: rgba(255,255,255,0.04);
-  border: 1px dashed rgba(255,255,255,0.15);
-  overflow: hidden;
+.invitations {
   position: relative;
-  transition: transform 0.6s var(--ease-quiet), box-shadow 0.6s var(--ease-quiet);
+  background: var(--lc-white);
+  padding: 200px 56px 240px;
 }
-.plate:hover .plate__slot { transform: translateY(-4px); box-shadow: 0 40px 80px -24px rgba(0,0,0,0.6); }
-.plate__slot image-slot { width: 100%; height: 100%; display: block; --image-slot-bg: transparent; --image-slot-border: transparent; --image-slot-color: rgba(255,255,255,0.4); }
-.plate__num { font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--lc-sage); letter-spacing: 0.04em; }
-.plate__name { font-family: var(--font-serif); font-style: italic; font-size: 19px; color: var(--lc-white); line-height: 1.3; min-height: 50px; }
-.plate__pair { font-family: var(--font-serif); font-style: italic; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
 
-.carte__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 64px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.12); }
+.invitations__head {
+  max-width: 1320px;
+  margin: 0 auto 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.invitations__eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: var(--font-display);
+  font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--lc-sage);
+}
+.invitations__eyebrow-rule { display: inline-block; width: 28px; height: 1px; background: currentColor; }
+.invitations__eyebrow-dot { color: var(--lc-fog); }
+.invitations__eyebrow-name { font-family: var(--font-serif); font-style: italic; text-transform: none; letter-spacing: 0.04em; font-size: 14px; color: var(--lc-sage); }
+.invitations__title {
+  font-family: var(--font-serif);
+  font-style: italic; font-weight: 400;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.018em;
+  color: var(--lc-ink);
+  margin: 0;
+  max-width: 16ch;
+}
+.invitations__title em { color: var(--lc-sage); font-style: italic; }
+
+/* ---------- Triptych — three passages ---------- */
+.invitations__triptych {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3.5vw, 56px);
+}
+
+/* Universal scroll-in transition (shared with StoryBeat) */
+.passage,
+.salon {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 1100ms var(--ease-quiet), transform 1100ms var(--ease-quiet);
+  will-change: opacity, transform;
+}
+.passage.is-in,
+.salon.is-in {
+  opacity: 1; transform: translateY(0);
+}
+
+.passage {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Roman numeral rail at the top, sage thin line trailing */
+.passage__rail {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 24px;
+}
+.passage__rail span {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--lc-sage);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.passage__rail i {
+  flex: 1;
+  height: 1px;
+  background: var(--lc-fog);
+  display: block;
+  transform-origin: left center;
+  transition: background 0.6s var(--ease-quiet), transform 0.8s var(--ease-quiet);
+}
+.passage:hover .passage__rail i,
+.passage:focus-visible .passage__rail i {
+  background: var(--lc-sage);
+}
+
+/* Image frame */
+.passage__img {
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--lc-mist);
+  box-shadow: 0 30px 80px -32px rgba(26,26,26,0.30);
+}
+.passage__img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--ease-quiet), filter 0.6s var(--ease-quiet);
+  filter: brightness(0.94) saturate(0.94);
+}
+.passage:hover .passage__img img,
+.passage:focus-visible .passage__img img {
+  transform: scale(1.04);
+  filter: brightness(1.0) saturate(1.0);
+}
+
+/* Label below — editorial caption + underline reveal */
+.passage__meta {
+  margin-top: 32px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.passage__kicker {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(26px, 2.2vw, 34px);
+  line-height: 1.1;
+  color: var(--lc-ink);
+  letter-spacing: -0.005em;
+  position: relative;
+  display: inline-block;
+  align-self: flex-start;
+}
+.passage__kicker::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -6px;
+  height: 1px; width: 0;
+  background: var(--lc-sage);
+  transition: width 0.7s var(--ease-quiet);
+}
+.passage:hover .passage__kicker::after,
+.passage:focus-visible .passage__kicker::after { width: 100%; }
+.passage__line {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--lc-stone);
+}
+
+/* ---------- Salon Laurier — split portal, image left, ink panel right ---------- */
+.salon {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  max-width: 1320px;
+  margin: clamp(140px, 18vh, 220px) auto 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+}
+.salon__img {
+  overflow: hidden;
+  background: var(--lc-ink);
+}
+.salon__img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 480px;
+  transition: transform 1.6s var(--ease-quiet), filter 0.6s var(--ease-quiet);
+  filter: brightness(0.92) saturate(0.92);
+}
+.salon:hover .salon__img img,
+.salon:focus-visible .salon__img img {
+  transform: scale(1.035);
+  filter: brightness(1.0) saturate(1.0);
+}
+
+.salon__panel {
+  background: var(--lc-ink);
+  color: var(--lc-white);
+  padding: clamp(48px, 6vw, 80px) clamp(40px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+/* Subtle architectural tile motif — white shapes at ~5% on ink */
+.salon__panel::after {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  background-image: url('../../assets/pattern-tiles.svg');
+  background-repeat: repeat;
+  background-size: 260px 260px;
+  background-position: center;
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 0;
+  /* Softly fade the pattern toward the seam so the sage divider stays clean */
+  -webkit-mask-image: linear-gradient(105deg, transparent 0%, #000 18%, #000 100%);
+          mask-image: linear-gradient(105deg, transparent 0%, #000 18%, #000 100%);
+}
+.salon__panel > * { position: relative; z-index: 1; }
+.salon__panel::before {
+  /* very subtle warm vignette at the seam — pendant-glow */
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--lc-sage) 35%, var(--lc-sage) 65%, transparent 100%);
+  opacity: 0.4;
+}
+.salon__eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: var(--font-display);
+  font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--lc-sage-soft);
+}
+.salon__eyebrow-rule {
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: currentColor;
+}
+.salon__title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.018em;
+  color: var(--lc-white);
+  margin: 0;
+}
+.salon__title em { color: var(--lc-sage-soft); font-style: italic; }
+.salon__lead {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.72);
+  margin: 0;
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+.salon__seal {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--lc-white);
+  align-self: flex-start;
+}
+.salon__seal-line {
+  display: inline-block;
+  width: 56px; height: 1px;
+  background: var(--lc-sage-soft);
+  transition: width 0.7s var(--ease-quiet), background 0.4s var(--ease-quiet);
+}
+.salon:hover .salon__seal-line,
+.salon:focus-visible .salon__seal-line { width: 96px; background: var(--lc-white); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+  .invitations { padding: 120px 24px 160px; }
+  .invitations__head { margin-bottom: 64px; }
+  .invitations__triptych { grid-template-columns: 1fr; gap: 64px; }
+  .salon { grid-template-columns: 1fr; margin-top: 96px; }
+  .salon__img img { min-height: 360px; }
+  .salon__panel::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 1px; background: var(--lc-sage); }
+}
+
+/* ============================================================
+   Carte — dark, minimal trio of signature plates
+   ============================================================ */
+.carte { background: var(--lc-ink); color: var(--lc-white); padding: 168px 56px; position: relative; overflow: hidden; }
+.carte__inner { max-width: 1240px; margin: 0 auto; position: relative; z-index: 1; }
+
+.carte__head { text-align: center; max-width: 720px; margin: 0 auto 112px; }
+.carte__head-eyebrow { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--lc-sage-soft); margin-bottom: 28px; display: inline-flex; align-items: center; gap: 18px; }
+.carte__head-eyebrow::before,
+.carte__head-eyebrow::after { content: ''; display: inline-block; width: 24px; height: 1px; background: currentColor; }
+.carte__head-title { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(40px, 4.4vw, 64px); line-height: 1.1; letter-spacing: -0.015em; margin: 0; color: var(--lc-white); }
+.carte__head-title em { color: var(--lc-sage-soft); font-style: italic; }
+
+/* Plate trio — three featured dishes, generous gutters */
+.plates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 88px; }
+.plate {
+  margin: 0;
+  display: flex; flex-direction: column; gap: 28px;
+  cursor: pointer;
+}
+.plate__img {
+  display: block; width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  background: rgba(255,255,255,0.04);
+  transition: transform 0.8s var(--ease-quiet), filter 0.6s var(--ease-quiet);
+  filter: brightness(0.95);
+}
+.plate:hover .plate__img { transform: translateY(-6px); filter: brightness(1.0); }
+.plate__cap { display: flex; align-items: baseline; gap: 16px; padding: 0 4px; }
+.plate__num { font-family: var(--font-serif); font-style: italic; font-size: 16px; color: var(--lc-sage); letter-spacing: 0.02em; flex-shrink: 0; }
+.plate__name { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 18px; line-height: 1.4; color: rgba(255,255,255,0.92); letter-spacing: -0.005em; }
+
+.carte__foot { display: flex; justify-content: center; margin-top: 24px; }
+.carte__cta {
+  background: none; border: 0;
+  font-family: var(--font-display); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--lc-white);
+  padding: 14px 4px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+  transition: color 0.3s var(--ease-quiet), border-color 0.3s var(--ease-quiet), gap 0.3s var(--ease-quiet);
+}
+.carte__cta span { transition: transform 0.3s var(--ease-quiet); }
+.carte__cta:hover { color: var(--lc-sage-soft); border-bottom-color: var(--lc-sage-soft); gap: 24px; }
+.carte__cta:hover span { transform: translateX(4px); }
+
+@media (max-width: 900px) {
+  .carte { padding: 112px 32px; }
+  .plates { grid-template-columns: 1fr; gap: 48px; }
+  .carte__head { margin-bottom: 72px; }
+}
 
 /* ============================================================
    Agenda — events list
@@ -427,11 +672,14 @@ body.is-gift-iframe-hot .cursor-dot {
 .agenda__item-cta { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--lc-sage); }
 
 /* ============================================================
-   Contact information — framed block + visual
+   Contact information — framed block + visual.
+   Sage-tint band mirrors the press section at the top — bookends
+   the page with two warm taupe moments before the ink footer.
    ============================================================ */
 .address {
-  background: var(--lc-paper);
-  padding: 112px 40px;
+  background: var(--lc-sage-tint);
+  padding: 140px 40px 168px;
+  border-top: 1px solid rgba(133, 122, 102, 0.18);
 }
 .address__inner {
   max-width: 1160px;
@@ -443,8 +691,8 @@ body.is-gift-iframe-hot .cursor-dot {
 }
 .address__panel {
   min-height: 500px;
-  border: 1px solid var(--hairline);
-  box-shadow: inset 0 0 0 12px var(--lc-paper), inset 0 0 0 13px var(--hairline-soft);
+  border: 1px solid rgba(133, 122, 102, 0.28);
+  box-shadow: inset 0 0 0 12px var(--lc-white), inset 0 0 0 13px rgba(133, 122, 102, 0.18);
   background: var(--lc-white);
   padding: 64px 56px;
   display: flex;
@@ -772,7 +1020,7 @@ body.is-gift-iframe-hot .cursor-dot {
   .address__panel {
     min-height: 380px;
     padding: 48px 28px;
-    box-shadow: inset 0 0 0 9px var(--lc-paper), inset 0 0 0 10px var(--hairline-soft);
+    box-shadow: inset 0 0 0 9px var(--lc-white), inset 0 0 0 10px rgba(133, 122, 102, 0.18);
   }
   .address__visual,
   .address__visual img {
