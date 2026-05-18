@@ -11,23 +11,6 @@ function Home({ onNav }) {
 
       <PressRail />
 
-      {/* ------------------- Manifeste ------------------- */}
-      <section className="manifeste">
-        <div className="manifeste__eyebrow">Le mot de la maison</div>
-        <h2 className="manifeste__title">
-          Mettre tout notre talent au service de la qualité des produits —
-          {' '}<span className="sage">pour que le bonheur soit dans l’assiette.</span>
-        </h2>
-        <div className="manifeste__signature">
-          <div className="manifeste__signature-mark" />
-          <div className="manifeste__chefs-names">
-            <span>Marc De Canck<small>chef propriétaire · depuis 1995</small></span>
-            <span>Olivier de Montigny<small>chef propriétaire · depuis 1999</small></span>
-          </div>
-          <div className="manifeste__signature-mark" />
-        </div>
-      </section>
-
       {/* ------------------- Histoire ------------------- */}
       <section className="histoire">
         <div className="histoire__rail">
@@ -134,70 +117,6 @@ function Home({ onNav }) {
         </div>
       </section>
 
-      {/* ------------------- Salles ------------------- */}
-      <section className="salles">
-        <div className="salles__head">
-          <div>
-            <div className="salles__head-eyebrow">Chapitre III · Les espaces</div>
-            <h2 className="salles__head-title">La salle à manger<br /><em>et le Salon Laurier.</em></h2>
-          </div>
-          <p className="salles__head-p">
-            Un décor épuré, contemporain, sobre. Tout est pensé pour disparaître
-            derrière l’assiette — la lumière, le linge blanc, la marqueterie de
-            noyer, le velours noir des banquettes.
-          </p>
-        </div>
-        <div className="salles__grid">
-          <div className="salle salle--a" onClick={() => onNav('apropos')}>
-            <div className="salle__inner" style={{ backgroundImage: "url('/assets/dining-room-press.jpg')" }} />
-            <div className="salle__label">
-              <div className="salle__label-num">i</div>
-              <div className="salle__label-name">La salle à manger</div>
-            </div>
-          </div>
-          <div className="salle salle--b" onClick={() => onNav('apropos')}>
-            <div className="salle__inner" style={{ backgroundImage: "url('/assets/signage-detail.jpg')" }} />
-            <div className="salle__label">
-              <div className="salle__label-num">ii</div>
-              <div className="salle__label-name">La façade</div>
-            </div>
-          </div>
-          <div className="salle salle--c" onClick={() => onNav('apropos')}>
-            <div className="salle__inner" style={{ backgroundImage: "url('/assets/facade-night.webp')" }} />
-            <div className="salle__label">
-              <div className="salle__label-num">iii</div>
-              <div className="salle__label-name">La nuit, sur Laurier</div>
-            </div>
-          </div>
-          <div className="salle salle--d" onClick={() => onNav('apropos')}>
-            <div className="salle__inner" style={{ backgroundImage: "url('/assets/dining-room-collage.jpg')" }} />
-            <div className="salle__label">
-              <div className="salle__label-num">iv</div>
-              <div className="salle__label-name">Service du soir</div>
-            </div>
-          </div>
-          <div className="salle salle--e" onClick={() => onNav('salon')}>
-            <div className="salle__inner" style={{ backgroundImage: "url('/assets/facade-day.jpg')" }} />
-            <div className="salle__label">
-              <div className="salle__label-num">v</div>
-              <div className="salle__label-name">Salon Laurier</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------- Full-bleed citation breaker ------------------- */}
-      <section className="bleed-quote" style={{ backgroundImage: "url('/assets/dining-room-press.jpg')" }}>
-        <div className="bleed-quote__inner">
-          <div className="bleed-quote__mark">«</div>
-          <div className="bleed-quote__text">Petite resto, <em>grande cuisine.</em></div>
-          <div className="bleed-quote__attr">
-            Françoise Kayler
-            <small>critique gastronomique · La Presse</small>
-          </div>
-        </div>
-      </section>
-
       {/* ------------------- Agenda ------------------- */}
       <section className="agenda">
         <div className="agenda__inner">
@@ -234,48 +153,34 @@ function Home({ onNav }) {
         </div>
       </section>
 
-      {/* ------------------- Invitation strip ------------------- */}
-      <section className="invite">
-        <div className="invite__eyebrow">Chapitre V · Réservation</div>
-        <h2 className="invite__title">Venez vous asseoir<br />à notre table.</h2>
-        <form className="invite__inline" onSubmit={(e) => { e.preventDefault(); onNav('reservation'); }}>
-          <div>
-            <label>Date</label>
-            <input type="date" defaultValue="2026-05-22" />
-          </div>
-          <div>
-            <label>Heure</label>
-            <select defaultValue="19:30">
-              <option>17:30</option><option>18:00</option><option>18:30</option>
-              <option>19:00</option><option>19:30</option><option>20:00</option>
-              <option>20:30</option><option>21:00</option>
-            </select>
-          </div>
-          <div>
-            <label>Personnes</label>
-            <select defaultValue="2 personnes">
-              <option>2 personnes</option>
-              <option>3 personnes</option>
-              <option>4 personnes</option>
-              <option>5 personnes</option>
-              <option>6 personnes</option>
-            </select>
-          </div>
-          <button type="submit" className="invite__btn">Réserver →</button>
-        </form>
-        <div className="invite__phone">
-          ou directement par téléphone — <a href="tel:5142713095">514&nbsp;271-3095</a>
-        </div>
-      </section>
-
       {/* ------------------- Editorial address ------------------- */}
       <section className="address">
-        <div className="address__eyebrow">Nous trouver</div>
-        <div className="address__big">
-          104 avenue Laurier Ouest,<br />Montréal,
-          <strong>Mile-end · QC · H2T 2N7</strong>
+        <div className="address__inner">
+          <div className="address__panel">
+            <div className="address__eyebrow">Nous trouver</div>
+            <div className="address__groups">
+              <div className="address__group">
+                <h3>Téléphone</h3>
+                <p><a href="tel:5142713095">514&nbsp;271-3095</a></p>
+              </div>
+              <div className="address__group">
+                <h3>Courriel</h3>
+                <p><a href="mailto:info@lachronique.qc.ca">info@lachronique.qc.ca</a></p>
+              </div>
+              <div className="address__group">
+                <h3>Adresse</h3>
+                <p>104 avenue Laurier Ouest<br />Montréal, QC H2T 2N7</p>
+              </div>
+              <div className="address__group">
+                <h3>Heures d’ouverture</h3>
+                <p>Mardi — samedi<br />17 h 30 — 22 h 30</p>
+              </div>
+            </div>
+          </div>
+          <figure className="address__visual">
+            <img src="/assets/facade-day.jpg" alt="Façade du restaurant La Chronique" />
+          </figure>
         </div>
-        <div className="address__sub">Mardi — Samedi · 17 h 30 — 22 h 30</div>
       </section>
     </>
   );

@@ -7,13 +7,6 @@ const { useState: useStateS2 } = React;
 function Apropos() {
   return (
     <div className="page">
-      <div className="page-hero" style={{ backgroundImage: `url('${window.__r('dining_room_press_jpg')}')` }}>
-        <div className="page-hero__copy">
-          <div className="page-hero__eyebrow">La maison</div>
-          <h1 className="page-hero__title">Trois décennies,<br />deux chefs, une table.</h1>
-        </div>
-      </div>
-
       <section className="chapters">
         {/* Chapter I — Marc */}
         <div className="chapter">
