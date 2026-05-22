@@ -9,7 +9,6 @@ function Home({ onNav }) {
     <>
       <CinemaIntro onEnter={() => onNav('reservation')} />
 
-      <PressRail />
 
       {/* ------------------- Histoire ------------------- */}
       <section className="histoire">
@@ -25,7 +24,6 @@ function Home({ onNav }) {
             <div className="img--caption">Photo · Fany Ducharme</div>
           </div>
           <div className="histoire__body">
-            <div className="histoire__chapter">Chapitre <span>I</span> L’histoire</div>
             <h2 className="histoire__title">Petite resto,<br />grande cuisine.</h2>
             <p className="histoire__p">
               Mars 1995. Après quelques années passées dans divers établissements
@@ -51,7 +49,6 @@ function Home({ onNav }) {
         <div className="carte__inner">
           <div className="carte__head">
             <div>
-              <div className="carte__head-eyebrow">Chapitre II · La carte</div>
               <h2 className="carte__head-title">Quatre temps,<br />un menu dégustation.</h2>
             </div>
             <div className="carte__head-meta">
@@ -121,7 +118,6 @@ function Home({ onNav }) {
       <section className="agenda">
         <div className="agenda__inner">
           <div className="agenda__head">
-            <div className="agenda__head-eyebrow">Chapitre IV · Événements</div>
             <h2 className="agenda__head-title">Les soirées<br /><em>d’exception.</em></h2>
             <button className="agenda__head-link" onClick={() => onNav('blogue')}>Tout voir →</button>
           </div>
@@ -178,7 +174,7 @@ function Home({ onNav }) {
             </div>
           </div>
           <figure className="address__visual">
-            <img src="/assets/facade-day.jpg" alt="Façade du restaurant La Chronique" />
+            <img src="/assets/IMG_8851_plat.jpg" alt="Plat signature de La Chronique" />
           </figure>
         </div>
       </section>

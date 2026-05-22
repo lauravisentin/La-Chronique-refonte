@@ -38,20 +38,9 @@ function Home({ onNav }) {
     <>
       <CinemaIntro onEnter={() => onNav('reservation')} />
 
-      <PressRail />
 
       {/* ------------------- Invitations — three passages + Salon Laurier ------------------- */}
       <section className="invitations">
-        <header className="invitations__head">
-          <span className="invitations__eyebrow">
-            <span className="invitations__eyebrow-rule" />
-            <span>Chapitre I</span>
-            <span className="invitations__eyebrow-dot">·</span>
-            <span className="invitations__eyebrow-name">L’invitation</span>
-          </span>
-          <h2 className="invitations__title">Trois passages,<br /><em>une même table.</em></h2>
-        </header>
-
         <div className="invitations__triptych">
           <StoryBeat as="a" className="passage" onClick={() => onNav('menu')} role="link" tabIndex={0}>
             <div className="passage__rail"><span>I</span><i /></div>
@@ -87,8 +76,8 @@ function Home({ onNav }) {
           </StoryBeat>
         </div>
 
-        {/* Salon Laurier — split portal, image left + ink panel right */}
-        <StoryBeat as="a" className="salon" onClick={() => onNav('salon')} role="link" tabIndex={0}>
+        {/* Salon Laurier */}
+        <StoryBeat as="a" className="salon salon-laurier" onClick={() => onNav('salon')} role="link" tabIndex={0}>
           <div className="salon__img">
             <img src="../../assets/dining-room-collage.jpg" alt="Salon Laurier" />
           </div>
@@ -114,7 +103,6 @@ function Home({ onNav }) {
       <section className="carte">
         <div className="carte__inner">
           <header className="carte__head">
-            <div className="carte__head-eyebrow">Chapitre II · La carte</div>
             <h2 className="carte__head-title">Un menu dégustation,<br /><em>quatre temps.</em></h2>
           </header>
 
@@ -155,7 +143,6 @@ function Home({ onNav }) {
       <section className="agenda">
         <div className="agenda__inner">
           <div className="agenda__head">
-            <div className="agenda__head-eyebrow">Chapitre III · Événements</div>
             <h2 className="agenda__head-title">Les soirées<br /><em>d’exception.</em></h2>
             <button className="agenda__head-link" onClick={() => onNav('blogue')}>Tout voir →</button>
           </div>
@@ -212,7 +199,7 @@ function Home({ onNav }) {
             </div>
           </div>
           <figure className="address__visual">
-            <img src="../../assets/facade-day.jpg" alt="Façade du restaurant La Chronique" />
+            <img src="../../assets/IMG_8851_plat.jpg" alt="Plat signature de La Chronique" />
           </figure>
         </div>
       </section>

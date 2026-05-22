@@ -109,7 +109,7 @@ function Nav({ route, onNav, dark = false, fade = 1 }) {
           <button key={k} className={'nav__link' + (route === k ? ' is-active' : '')} onClick={() => onNav(k)}>{l}</button>
         ))}
         <a href="tel:5142713095" className="nav__phone">514·271·3095</a>
-        <button className="nav__reserve" onClick={() => onNav('reservation')}>Réserver</button>
+        <button className="nav__reserve btn btn--sage" onClick={() => onNav('reservation')}>Réserver</button>
       </div>
     </nav>
   );
@@ -160,21 +160,21 @@ function Hero({ slides, onReserve }) {
 /* ============================================================
    PRESS RAIL
    ============================================================ */
-function PressRail() {
-  return (
-    <section className="press">
-      <div className="press__inner">
-        <div className="press__label">Distingués par</div>
-        <div className="press__items">
-          <div className="press__item">Guide Michelin<small>recommandé · 2025</small></div>
-          <div className="press__item">Wine Spectator<small>Best Award of Excellence · 2024</small></div>
-          <div className="press__item">700+ vins<small>cave curatée</small></div>
-          <div className="press__item">30 ans<small>depuis mars 1995</small></div>
-        </div>
-      </div>
-    </section>
-  );
-}
+// function PressRail() {
+//   return (
+//     <section className="press">
+//       <div className="press__inner">
+//         <div className="press__label">Distingués par</div>
+//         <div className="press__items">
+//           <div className="press__item">Guide Michelin<small>recommandé · 2025</small></div>
+//           <div className="press__item">Wine Spectator<small>Best Award of Excellence · 2024</small></div>
+//           <div className="press__item">700+ vins<small>cave curatée</small></div>
+//           <div className="press__item">30 ans<small>depuis mars 1995</small></div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
 
 /* ============================================================
    FOOTER
@@ -455,4 +455,4 @@ function SmoothScroll() {
   return null;
 }
 
-Object.assign(window, { Logo, Curtain, Cursor, Nav, Hero, PressRail, Footer, CinemaIntro, SmoothScroll });
+Object.assign(window, { Logo, Curtain, Cursor, Nav, Hero, Footer, CinemaIntro, SmoothScroll });
