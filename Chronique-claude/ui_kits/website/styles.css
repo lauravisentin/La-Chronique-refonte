@@ -183,9 +183,9 @@ body.is-gift-iframe-hot .cursor-dot {
 }
 .cinema__logo {
   position: absolute; top: 50%; left: 50%;
-  width: clamp(280px, 36vw, 540px);
+  width: clamp(340px, 46vw, 720px);
   z-index: 4;
-  transform-origin: 62% 65%;
+  transform-origin: 59% 72%;
   will-change: transform, opacity;
   pointer-events: none;
   -webkit-backface-visibility: hidden;

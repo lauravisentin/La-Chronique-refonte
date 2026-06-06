@@ -9,6 +9,7 @@
 
 <!-- External resource dependencies (referenced by string in JSX, lifted to window.__resources) -->
 <meta name="ext-resource-dependency" content="/assets/logo-wordmark.png"        data-resource-id="logo_wordmark_png" />
+<meta name="ext-resource-dependency" content="/assets/RestaurantChronique.svg"  data-resource-id="restaurant_chronique_svg" />
 <meta name="ext-resource-dependency" content="/assets/facade-night.webp"        data-resource-id="facade_night_webp" />
 <meta name="ext-resource-dependency" content="/assets/facade-day.jpg"           data-resource-id="facade_day_jpg" />
 <meta name="ext-resource-dependency" content="/assets/dining-room-press.jpg"    data-resource-id="dining_room_press_jpg" />
@@ -60,6 +61,7 @@
      Fallback path keeps the file usable in dev when assets are colocated. -->
 <script>
   window.__r = function (id) {
+    if (id === 'restaurant_chronique_svg') return '/assets/RestaurantChronique.svg';
     return (window.__resources && window.__resources[id]) || ('/assets/' + id.replace(/_/g, '-').replace(/-(png|jpg|jpeg|webp|svg)$/, '.$1'));
   };
 </script>

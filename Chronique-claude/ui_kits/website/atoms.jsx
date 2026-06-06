@@ -237,10 +237,17 @@ function CinemaIntro({ onEnter }) {
   const trackRef = useRef(null);
   const targetP = useRef(0);
   const easedP  = useRef(0);
+  const autoTailStart = useRef(0);
+  const autoScrollStart = useRef(0);
+  const autoScrollEnd = useRef(0);
+  const autoTailRunning = useRef(false);
+  const autoTailComplete = useRef(false);
   const rafId   = useRef(0);
   const [p, setP] = useState(0);
+  const [tailP, setTailP] = useState(0);
 
   useEffect(() => {
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const measure = () => {
       const track = trackRef.current;
       if (!track) return;
@@ -249,7 +256,7 @@ function CinemaIntro({ onEnter }) {
       const scrolled = -r.top;
       targetP.current = Math.max(0, Math.min(1, scrolled / total));
     };
-    const tick = () => {
+    const tick = (now) => {
       // rAF lerp toward target — gives a buttery scrub feel that's
       // independent of wheel tick granularity.
       const next = easedP.current + (targetP.current - easedP.current) * 0.14;
@@ -259,6 +266,36 @@ function CinemaIntro({ onEnter }) {
       } else if (next !== targetP.current) {
         easedP.current = targetP.current;
         setP(targetP.current);
+      }
+      if (!reduced && !autoTailRunning.current && !autoTailComplete.current && targetP.current >= 0.58) {
+        easedP.current = targetP.current;
+        setP(targetP.current);
+        autoTailRunning.current = true;
+        autoTailStart.current = now;
+        autoScrollStart.current = window.scrollY;
+        const track = trackRef.current;
+        const trackTop = window.scrollY + track.getBoundingClientRect().top;
+        autoScrollEnd.current = Math.max(
+          autoScrollStart.current,
+          trackTop + (track.offsetHeight - window.innerHeight) * 0.98
+        );
+        window.dispatchEvent(new CustomEvent('cinema-scroll-lock'));
+      }
+      if (autoTailRunning.current) {
+        const elapsed = Math.min(1, (now - autoTailStart.current) / 700);
+        const easedTail = elapsed * elapsed * (3 - 2 * elapsed);
+        setTailP(easedTail);
+        const scrollTail = Math.max(0, Math.min(1, (easedTail - 0.62) / 0.38));
+        const scrollY = autoScrollStart.current + (autoScrollEnd.current - autoScrollStart.current) * scrollTail;
+        window.dispatchEvent(new CustomEvent('cinema-scroll-position', { detail: { scrollY } }));
+        if (elapsed === 1) {
+          autoTailRunning.current = false;
+          autoTailComplete.current = true;
+          window.dispatchEvent(new CustomEvent('cinema-scroll-release'));
+        }
+      } else if (!reduced && autoTailComplete.current && easedP.current < 0.52) {
+        autoTailComplete.current = false;
+        setTailP(0);
       }
       document.body.classList.toggle('is-cinema', easedP.current < 0.97);
       rafId.current = requestAnimationFrame(tick);
@@ -271,6 +308,7 @@ function CinemaIntro({ onEnter }) {
       cancelAnimationFrame(rafId.current);
       window.removeEventListener('scroll', measure);
       window.removeEventListener('resize', measure);
+      if (autoTailRunning.current) window.dispatchEvent(new CustomEvent('cinema-scroll-release'));
       document.body.classList.remove('is-cinema');
     };
   }, []);
@@ -285,29 +323,38 @@ function CinemaIntro({ onEnter }) {
   const lerp = (a, b, t) => a + (b - a) * t;
 
   // ---- per-element progress curves ----
-  // 0.00 – 0.32  approach: façade alive, logo at rest, name visible
-  // 0.32 – 0.72  zoom: logo accelerates forward, façade dims, interior brightens
-  // 0.72 – 0.92  pass-through: logo overshoots, bloom sweeps, interior fully open
+  // 0.00 – 0.34  approach: façade alive, logo at rest, name visible
+  // 0.34 – 0.68  zoom: logo fills the viewport before the layer change
+  // 0.68 – 0.92  pass-through: façade dims, interior fully opens
   // 0.92 – 1.00  arrival: copy slides in bottom-left, stage releases
 
-  const facadeOp     = 1 - easeIO(clamp01((p - 0.24) / 0.40));
+  const displayedTailP = tailP === 1 ? clamp01((p - 0.52) / 0.06) : tailP;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const transitionP = reduced ? p : Math.max(p, lerp(0.58, 0.92, displayedTailP));
+
+  const facadeOp     = 1 - easeIO(clamp01((transitionP - 0.68) / 0.20));
   // Restaurant visible in full from p=0 (the sign on top is in frame).
   // Only a faint Ken Burns drift so the photo doesn’t look frozen.
-  const facadeKB     = lerp(1.0, 1.06, easeIO(p));
-  const facadeBright = lerp(0.62, 1.0, easeIO(clamp01((p - 0.10) / 0.50)));
+  const facadeKB     = lerp(1.0, 1.06, easeIO(transitionP));
+  const facadeBright = lerp(0.62, 1.0, easeIO(clamp01((transitionP - 0.10) / 0.50)));
+  const facadeContrast = lerp(1.08, 0.82, easeIO(clamp01((transitionP - 0.68) / 0.20)));
 
-  const interiorOp     = easeIO(clamp01((p - 0.32) / 0.50));
-  const interiorKB     = lerp(1.06, 1.0, easeIO(clamp01((p - 0.32) / 0.65)));
-  const interiorBright = lerp(0.95, 1.0, easeIO(clamp01((p - 0.50) / 0.30)));
+  const interiorOp     = easeIO(clamp01((transitionP - 0.72) / 0.20));
+  const interiorKB     = lerp(1.06, 1.0, easeIO(clamp01((transitionP - 0.72) / 0.20)));
+  const interiorBright = lerp(0.82, 1.0, easeIO(clamp01((transitionP - 0.72) / 0.20)));
+  const interiorContrast = lerp(0.86, 1.06, easeIO(clamp01((transitionP - 0.72) / 0.20)));
 
   // Logo scale — we zoom INTO the "O" of "chronique". Transform-origin
   // is set on the element to that letter’s position so it grows out
   // toward the viewer; when fully open it becomes the doorway through
   // which the interior is revealed.
-  const zoomBase  = lerp(1.0, 1.18, easeIO(clamp01(p / 0.34)));
-  const zoomRush  = lerp(1.18, 9.5, easeRush(clamp01((p - 0.34) / 0.38)));
-  const zoom = p < 0.34 ? zoomBase : zoomRush;
-  const logoOp = p < 0.68 ? 1 : 1 - easeIO(clamp01((p - 0.68) / 0.12));
+  const zoomBase  = lerp(1.08, 1.42, easeIO(clamp01(p / 0.34)));
+  const scrollZoom = lerp(1.42, 55, easeRush(clamp01((p - 0.34) / 0.34)));
+  const preTailZoom = lerp(1.42, 12, easeRush(clamp01((p - 0.34) / 0.24)));
+  const zoom = reduced
+    ? (p < 0.34 ? zoomBase : scrollZoom)
+    : (p < 0.34 ? zoomBase : (displayedTailP > 0 ? lerp(12, 55, displayedTailP) : preTailZoom));
+  const logoOp = 1;
 
   // Tiny depth wobble — mimics walking through a doorway, never aggressive
   const wobbleY = Math.sin(p * 6.28) * 0.6 * (1 - p);
@@ -317,11 +364,11 @@ function CinemaIntro({ onEnter }) {
   const hintOp  = 1 - easeIO(clamp01(p / 0.18));
 
   // Vignette — very light at the start so the first image is barely darkened
-  const vignetteR = lerp(80, 120, easeIO(clamp01((p - 0.20) / 0.55)));
-  const vignetteA = lerp(0.18, 0.05, easeIO(clamp01((p - 0.30) / 0.50)));
+  const vignetteR = lerp(80, 120, easeIO(clamp01((transitionP - 0.20) / 0.55)));
+  const vignetteA = lerp(0.18, 0.05, easeIO(clamp01((transitionP - 0.30) / 0.50)));
 
   // Arrival copy
-  const arrivalOp = easeOut(clamp01((p - 0.78) / 0.18));
+  const arrivalOp = easeOut(clamp01((p - 0.92) / 0.08));
   const arrivalY = lerp(40, 0, arrivalOp);
 
   return (
@@ -331,7 +378,7 @@ function CinemaIntro({ onEnter }) {
              style={{
                opacity: facadeOp,
                transform: `scale(${facadeKB})`,
-               filter: `brightness(${facadeBright}) saturate(0.92)`,
+               filter: `brightness(${facadeBright}) contrast(${facadeContrast}) saturate(0.92)`,
                backgroundImage: "url('../../assets/facade-night.webp')",
                backgroundPosition: 'center center',
              }} />
@@ -339,7 +386,7 @@ function CinemaIntro({ onEnter }) {
              style={{
                opacity: interiorOp,
                transform: `scale(${interiorKB})`,
-               filter: `brightness(${interiorBright})`,
+               filter: `brightness(${interiorBright}) contrast(${interiorContrast})`,
                backgroundImage: "url('../../assets/dining-room-press.jpg')",
              }} />
 
@@ -353,7 +400,7 @@ function CinemaIntro({ onEnter }) {
                transform: `translate(-50%, calc(-50% + ${wobbleY}px)) scale(${zoom})`,
                opacity: logoOp,
              }}>
-          <img src="../../assets/logo-wordmark.png" alt="Restaurant la chronique" />
+          <img src="../../assets/RestaurantChronique.svg" alt="Restaurant la chronique" />
         </div>
 
         <div className="cinema__since" style={{ opacity: sinceOp }}>
@@ -395,10 +442,16 @@ function SmoothScroll() {
     let current = window.scrollY;
     let raf = 0;
     let scrolling = false;
+    let locked = false;
+    let lockY = window.scrollY;
     const factor = 0.13;
 
     const onWheel = (e) => {
       if (e.ctrlKey) return;             // pinch-zoom / browser zoom
+      if (locked) {
+        e.preventDefault();
+        return;
+      }
       // honour modifier keys (shift = horizontal page-scroll, etc.)
       if (e.deltaMode === 1) return;     // line scrolling (some legacy mice) — leave alone
       e.preventDefault();
@@ -411,13 +464,46 @@ function SmoothScroll() {
       scrolling = true;
     };
     const onKey = (e) => {
+      if (locked && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(e.key)) {
+        e.preventDefault();
+        return;
+      }
       // arrow / page / space keys still scroll naturally; sync target
       target = window.scrollY;
     };
     const onResize = () => { target = window.scrollY; current = window.scrollY; };
     const onTouch = () => { target = window.scrollY; current = window.scrollY; };
+    const onTouchMove = (e) => {
+      if (locked) e.preventDefault();
+    };
+    const onLock = () => {
+      locked = true;
+      lockY = window.scrollY;
+      target = lockY;
+      current = lockY;
+      scrolling = false;
+    };
+    const onRelease = () => {
+      window.scrollTo(0, lockY);
+      target = lockY;
+      current = lockY;
+      scrolling = false;
+      locked = false;
+    };
+    const onPosition = (e) => {
+      if (!locked) return;
+      lockY = e.detail.scrollY;
+      target = lockY;
+      current = lockY;
+      window.scrollTo(0, lockY);
+    };
 
     const tick = () => {
+      if (locked) {
+        if (Math.abs(window.scrollY - lockY) > 0.5) window.scrollTo(0, lockY);
+        raf = requestAnimationFrame(tick);
+        return;
+      }
       const delta = target - current;
       if (Math.abs(delta) > 0.4) {
         current += delta * factor;
@@ -439,9 +525,13 @@ function SmoothScroll() {
     };
 
     window.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('keydown', onKey, { passive: true });
+    window.addEventListener('keydown', onKey);
     window.addEventListener('resize', onResize);
     window.addEventListener('touchstart', onTouch, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('cinema-scroll-lock', onLock);
+    window.addEventListener('cinema-scroll-position', onPosition);
+    window.addEventListener('cinema-scroll-release', onRelease);
     raf = requestAnimationFrame(tick);
 
     return () => {
@@ -449,6 +539,10 @@ function SmoothScroll() {
       window.removeEventListener('keydown', onKey);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('touchstart', onTouch);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('cinema-scroll-lock', onLock);
+      window.removeEventListener('cinema-scroll-position', onPosition);
+      window.removeEventListener('cinema-scroll-release', onRelease);
       cancelAnimationFrame(raf);
     };
   }, []);
