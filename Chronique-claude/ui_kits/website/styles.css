@@ -1341,12 +1341,24 @@ body.menu-open {
   justify-self: end;
   font-family: "Avenir Local", "Avenir Next", "Avenir", sans-serif;
   font-weight: 300;
+  color: var(--lc-white);
+  background: #616350;
+  border-color: #616350;
 }
 
+.nav.is-dark .nav__reserve,
 .nav.is-open .nav__reserve {
   color: var(--lc-white);
-  border-color: var(--lc-white);
+  background: #616350;
+  border-color: #616350;
+}
+
+.nav__reserve:hover,
+.nav.is-dark .nav__reserve:hover,
+.nav.is-open .nav__reserve:hover {
+  color: #616350;
   background: transparent;
+  border-color: #616350;
 }
 
 .menu-overlay {
@@ -1416,10 +1428,15 @@ body.menu-open {
   transition: opacity 0.25s, transform 0.35s var(--ease-quiet);
 }
 
-.menu-overlay__link:hover,
-.menu-overlay__link.is-active {
+.menu-overlay__link:hover {
   opacity: 1;
   transform: translateX(10px);
+}
+
+.menu-overlay__link.is-active {
+  opacity: 1;
+  font-weight: 400;
+  transform: none;
 }
 
 .menu-overlay__details {

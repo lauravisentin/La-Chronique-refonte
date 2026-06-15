@@ -7,7 +7,7 @@ const { useState, useEffect, useRef } = React;
 function Logo({ width = 170, dark = false, onClick }) {
   return (
     <img
-      src="../../assets/logo-wordmark.png"
+      src="../../assets/RestaurantChronique.svg"
       alt="Restaurant la chronique"
       onClick={onClick}
       style={{
@@ -360,12 +360,12 @@ function CinemaIntro({ onEnter }) {
   // toward the viewer; when fully open it becomes the doorway through
   // which the interior is revealed.
   const zoomBase  = lerp(1.08, 1.42, easeIO(clamp01(p / 0.34)));
-  const scrollZoom = lerp(1.42, 55, easeRush(clamp01((p - 0.34) / 0.34)));
+  const scrollZoom = lerp(1.42, 80, easeRush(clamp01((p - 0.34) / 0.34)));
   const preTailZoom = lerp(1.42, 12, easeRush(clamp01((p - 0.34) / 0.24)));
   const zoom = reduced
     ? (p < 0.34 ? zoomBase : scrollZoom)
-    : (p < 0.34 ? zoomBase : (displayedTailP > 0 ? lerp(12, 55, displayedTailP) : preTailZoom));
-  const logoOp = 1;
+    : (p < 0.34 ? zoomBase : (displayedTailP > 0 ? lerp(12, 80, displayedTailP) : preTailZoom));
+  const logoOp = 1 - easeIO(clamp01((transitionP - 0.82) / 0.12));
 
   // Tiny depth wobble — mimics walking through a doorway, never aggressive
   const wobbleY = Math.sin(p * 6.28) * 0.6 * (1 - p);
@@ -424,8 +424,8 @@ function CinemaIntro({ onEnter }) {
         <div className="cinema__arrival"
              style={{ opacity: arrivalOp, transform: `translateY(${arrivalY}px)` }}>
           <img className="cinema__arrival-michelin"
-               src="../../assets/michelin-2025.png"
-               alt="Recommandé par le Guide Michelin 2025" />
+               src="../../assets/michelin-2026.png"
+               alt="Recommandé par le Guide Michelin 2026" />
         </div>
       </div>
     </section>
