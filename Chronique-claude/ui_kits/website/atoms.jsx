@@ -89,29 +89,79 @@ function Cursor() {
 /* ============================================================
    NAVIGATION
    ============================================================ */
-function Nav({ route, onNav, dark = false, fade = 1 }) {
+function Nav({ route, onNav, dark = false, logoFade = 1 }) {
+  const [open, setOpen] = useState(false);
   const links = [
-    ['menu', 'La carte'],
+    ['home', 'Accueil'],
     ['apropos', 'La maison'],
-    ['salon', 'Salon Laurier'],
-    ['carte-cadeau', 'Carte cadeau'],
-    ['blogue', 'Blogue'],
-    ['contact', 'Contact'],
+    ['menu', 'La carte'],
+    ['salon', 'Le salon Laurier'],
+    ['carte-cadeau', 'Cartes cadeaux'],
   ];
+
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', open);
+    window.dispatchEvent(new CustomEvent(open ? 'cinema-scroll-lock' : 'cinema-scroll-release'));
+    return () => {
+      document.body.classList.remove('menu-open');
+      window.dispatchEvent(new CustomEvent('cinema-scroll-release'));
+    };
+  }, [open]);
+
+  const go = (nextRoute) => {
+    setOpen(false);
+    onNav(nextRoute);
+  };
+
   return (
-    <nav className={'nav' + (dark ? ' is-dark' : '')}
-         style={{ opacity: fade, pointerEvents: fade < 0.05 ? 'none' : 'auto' }}>
-      <div className="nav__brand" onClick={() => onNav('home')}>
-        <Logo width={170} dark={dark} />
+    <>
+      <nav className={'nav' + (dark ? ' is-dark' : '') + (open ? ' is-open' : '')}>
+        <button
+          className={'nav__burger' + (open ? ' is-open' : '')}
+          type="button"
+          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={open}
+          onClick={() => setOpen(v => !v)}
+        >
+          <span />
+          <span />
+        </button>
+        <button
+          className="nav__brand"
+          type="button"
+          aria-label="Accueil"
+          onClick={() => go('home')}
+          style={{ opacity: open ? 1 : logoFade, pointerEvents: open || logoFade > 0.05 ? 'auto' : 'none' }}
+        >
+          <Logo width={232} dark={dark || open} />
+        </button>
+        <button className="nav__reserve" type="button" onClick={() => go('reservation')}>Réserver</button>
+      </nav>
+
+      <div className={'menu-overlay' + (open ? ' is-open' : '')} aria-hidden={!open}>
+        <div className="menu-overlay__inner">
+          <div className="menu-overlay__links">
+            {links.map(([k, l]) => (
+              <button key={k} className={'menu-overlay__link' + (route === k ? ' is-active' : '')} onClick={() => go(k)}>{l}</button>
+            ))}
+          </div>
+          <div className="menu-overlay__details">
+            <div>
+              <span>Heures d'ouverture</span>
+              <strong>Mardi — samedi, 17 h 30 — 22 h 30</strong>
+            </div>
+            <div>
+              <span>Téléphone</span>
+              <a href="tel:5142713095">514 271-3095</a>
+            </div>
+            <div>
+              <span>Emplacement</span>
+              <strong>104 avenue Laurier Ouest<br />Montréal, QC, H2T 2N7</strong>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="nav__links">
-        {links.map(([k, l]) => (
-          <button key={k} className={'nav__link' + (route === k ? ' is-active' : '')} onClick={() => onNav(k)}>{l}</button>
-        ))}
-        <a href="tel:5142713095" className="nav__phone">514·271·3095</a>
-        <button className="nav__reserve btn btn--sage" onClick={() => onNav('reservation')}>Réserver</button>
-      </div>
-    </nav>
+    </>
   );
 }
 
@@ -360,7 +410,6 @@ function CinemaIntro({ onEnter }) {
   const wobbleY = Math.sin(p * 6.28) * 0.6 * (1 - p);
 
   // Caption fades
-  const sinceOp = 1 - easeIO(clamp01(p / 0.28));
   const hintOp  = 1 - easeIO(clamp01(p / 0.18));
 
   // Vignette — very light at the start so the first image is barely darkened
@@ -401,10 +450,6 @@ function CinemaIntro({ onEnter }) {
                opacity: logoOp,
              }}>
           <img src="../../assets/RestaurantChronique.svg" alt="Restaurant la chronique" />
-        </div>
-
-        <div className="cinema__since" style={{ opacity: sinceOp }}>
-          Depuis 1995 · Mile-end
         </div>
 
         <div className="cinema__hint" style={{ opacity: hintOp }}>
@@ -449,6 +494,7 @@ function SmoothScroll() {
     const onWheel = (e) => {
       if (e.ctrlKey) return;             // pinch-zoom / browser zoom
       if (locked) {
+        if (e.target.closest && e.target.closest('.menu-overlay')) return;
         e.preventDefault();
         return;
       }
@@ -466,6 +512,20 @@ function SmoothScroll() {
     const onKey = (e) => {
       if (locked && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(e.key)) {
         e.preventDefault();
+        const overlay = document.querySelector('.menu-overlay.is-open');
+        if (overlay) {
+          const page = Math.max(120, overlay.clientHeight * 0.75);
+          const amounts = {
+            ArrowDown: 56,
+            ArrowUp: -56,
+            PageDown: page,
+            PageUp: -page,
+            ' ': e.shiftKey ? -page : page,
+          };
+          if (e.key === 'Home') overlay.scrollTo({ top: 0, behavior: 'smooth' });
+          else if (e.key === 'End') overlay.scrollTo({ top: overlay.scrollHeight, behavior: 'smooth' });
+          else overlay.scrollBy({ top: amounts[e.key], behavior: 'smooth' });
+        }
         return;
       }
       // arrow / page / space keys still scroll naturally; sync target
@@ -474,7 +534,7 @@ function SmoothScroll() {
     const onResize = () => { target = window.scrollY; current = window.scrollY; };
     const onTouch = () => { target = window.scrollY; current = window.scrollY; };
     const onTouchMove = (e) => {
-      if (locked) e.preventDefault();
+      if (locked && !(e.target.closest && e.target.closest('.menu-overlay'))) e.preventDefault();
     };
     const onLock = () => {
       locked = true;

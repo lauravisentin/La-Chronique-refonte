@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animation d’accueil - aperçu autonome</title>
+  <link rel="stylesheet" href="accueil-anim.css">
+  <script src="accueil-anim.js" defer></script>
+</head>
+<body style="margin:0">
+  <section
+    id="ha-accueil-anim-preview"
+    class="ha ha--arrow-animated"
+    data-ha-anim
+    data-ha-mobile-transition="true"
+    style="--ha-facade-position:center;--ha-interior-position:center;--ha-facade-position-mobile:center;--ha-interior-position-mobile:center;--ha-arrow-size:24px;--ha-logo-size:720px"
+  >
+    <div class="ha__stage">
+      <div class="ha__layer ha__layer--facade" style="--ha-image:url('assets/facade-night.webp')" role="img" aria-label="Façade du Restaurant La Chronique"></div>
+      <div class="ha__layer ha__layer--interior" style="--ha-image:url('assets/dining-room-press.jpg')" role="img" aria-label="Salle du Restaurant La Chronique"></div>
+      <div class="ha__vignette" aria-hidden="true"></div>
+      <div class="ha__logo" aria-hidden="true"><img class="ha__logo-image" src="assets/RestaurantChronique.svg" alt=""></div>
+      <div class="ha__arrow" aria-hidden="true"><img class="ha__arrow-image" src="assets/arrow-example.svg" alt=""></div>
+      <div class="ha__badge"><img class="ha__badge-image" src="assets/michelin-2025.png" alt="Recommandé par le Guide Michelin 2025"></div>
+    </div>
+  </section>
+  <main style="min-height:100vh;padding:10vw;background:#f4f1eb;font:18px/1.6 Georgia,serif">
+    <h1>Contenu Elementor suivant</h1>
+    <p>Cette section confirme que le défilement normal reprend après l’animation.</p>
+  </main>
+</body>
+</html>

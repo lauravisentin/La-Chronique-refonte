@@ -1,0 +1,170 @@
+.ha {
+  --ha-ink: #1a1a1a;
+  --ha-facade-position: center;
+  --ha-interior-position: center;
+  --ha-facade-position-mobile: center;
+  --ha-interior-position-mobile: center;
+  --ha-arrow-size: 24px;
+  --ha-logo-size: 720px;
+  position: relative;
+  height: 360vh;
+  background: var(--ha-ink);
+}
+
+.ha *,
+.ha *::before,
+.ha *::after {
+  box-sizing: border-box;
+}
+
+.ha__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+  background: var(--ha-ink);
+}
+
+.ha__layer {
+  position: absolute;
+  inset: 0;
+  background-image: var(--ha-image);
+  background-size: cover;
+  will-change: opacity, transform, filter;
+  backface-visibility: hidden;
+}
+
+.ha__layer--facade {
+  background-position: var(--ha-facade-position);
+}
+
+.ha__layer--interior {
+  opacity: 0;
+  background-position: var(--ha-interior-position);
+}
+
+.ha__vignette {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ha__logo {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: min(var(--ha-logo-size), 88vw);
+  transform-origin: 59% 72%;
+  will-change: opacity, transform;
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+.ha__logo-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+.ha__arrow {
+  position: absolute;
+  z-index: 5;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.ha__arrow-image {
+  display: block;
+  width: auto;
+  max-width: min(160px, 80vw);
+  height: var(--ha-arrow-size);
+  object-fit: contain;
+}
+
+.ha--arrow-animated .ha__arrow-image {
+  animation: ha-arrow-drift 2.4s ease-in-out infinite;
+}
+
+.ha__badge {
+  position: absolute;
+  z-index: 5;
+  right: 56px;
+  bottom: 56px;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.ha__badge-image {
+  display: block;
+  width: 132px;
+  height: 132px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.45));
+}
+
+@keyframes ha-arrow-drift {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+@media (max-width: 720px) {
+  .ha {
+    height: 180vh;
+  }
+
+  .ha__layer--facade {
+    background-position: var(--ha-facade-position-mobile);
+  }
+
+  .ha__layer--interior {
+    background-position: var(--ha-interior-position-mobile);
+  }
+
+  .ha__logo {
+    width: min(var(--ha-logo-size), 82vw);
+  }
+
+  .ha__arrow {
+    bottom: 24px;
+  }
+
+  .ha__arrow-image {
+    max-width: min(120px, 70vw);
+    height: var(--ha-arrow-size);
+  }
+
+  .ha__badge {
+    right: 24px;
+    bottom: 24px;
+  }
+
+  .ha__badge-image {
+    width: 96px;
+    height: 96px;
+  }
+
+  .ha.ha--mobile-static {
+    height: 100vh;
+    height: 100svh;
+  }
+}
+
+.ha.ha--reduced {
+  height: 100vh;
+  height: 100svh;
+}
+
+.ha--reduced .ha__arrow-image {
+  animation: none;
+}
