@@ -172,14 +172,11 @@ img { display: block; max-width: 100%; }
   width: clamp(340px, 46vw, 720px);
   z-index: 4;
   transform-origin: 59% 72%;
-  will-change: transform, opacity;
   pointer-events: none;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 .cinema__logo img {
   width: 100%; height: auto; display: block;
-  filter: brightness(0) invert(1);
+  shape-rendering: geometricPrecision;
 }
 .cinema__since {
   position: absolute; top: calc(50% + 130px); left: 50%; transform: translateX(-50%);

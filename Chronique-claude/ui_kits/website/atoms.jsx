@@ -360,12 +360,12 @@ function CinemaIntro({ onEnter }) {
   // toward the viewer; when fully open it becomes the doorway through
   // which the interior is revealed.
   const zoomBase  = lerp(1.08, 1.42, easeIO(clamp01(p / 0.34)));
-  const scrollZoom = lerp(1.42, 80, easeRush(clamp01((p - 0.34) / 0.34)));
+  const scrollZoom = lerp(1.42, 32, easeRush(clamp01((p - 0.34) / 0.34)));
   const preTailZoom = lerp(1.42, 12, easeRush(clamp01((p - 0.34) / 0.24)));
   const zoom = reduced
     ? (p < 0.34 ? zoomBase : scrollZoom)
-    : (p < 0.34 ? zoomBase : (displayedTailP > 0 ? lerp(12, 80, displayedTailP) : preTailZoom));
-  const logoOp = 1 - easeIO(clamp01((transitionP - 0.82) / 0.12));
+    : (p < 0.34 ? zoomBase : (displayedTailP > 0 ? lerp(12, 32, displayedTailP) : preTailZoom));
+  const logoOp = 1 - easeIO(clamp01((transitionP - 0.70) / 0.12));
 
   // Tiny depth wobble — mimics walking through a doorway, never aggressive
   const wobbleY = Math.sin(p * 6.28) * 0.6 * (1 - p);
@@ -389,7 +389,7 @@ function CinemaIntro({ onEnter }) {
                opacity: facadeOp,
                transform: `scale(${facadeKB})`,
                filter: `brightness(${facadeBright}) contrast(${facadeContrast}) saturate(0.92)`,
-               backgroundImage: "url('../../assets/dining-room-collage.jpg')",
+               backgroundImage: "url('../../assets/fond.png')",
                backgroundPosition: 'center center',
              }} />
         <div className="cinema__layer cinema__layer--interior"
@@ -397,7 +397,7 @@ function CinemaIntro({ onEnter }) {
                opacity: interiorOp,
                transform: `scale(${interiorKB})`,
                filter: `brightness(${interiorBright}) contrast(${interiorContrast})`,
-               backgroundImage: "url('../../assets/interieur.avif')",
+               backgroundImage: "url('../../assets/chronique-6.0.0.1503828505.webp')",
              }} />
 
         <div className="cinema__vignette"
@@ -410,7 +410,7 @@ function CinemaIntro({ onEnter }) {
                transform: `translate(-50%, calc(-50% + ${wobbleY}px)) scale(${zoom})`,
                opacity: logoOp,
              }}>
-          <img src="../../assets/RestaurantChronique.svg" alt="Restaurant la chronique" />
+          <img src="../../assets/RestaurantChronique-blanc.svg" alt="Restaurant la chronique" />
         </div>
 
         <div className="cinema__hint" style={{ opacity: hintOp }}>
