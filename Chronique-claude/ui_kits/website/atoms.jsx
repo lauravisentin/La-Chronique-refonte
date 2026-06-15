@@ -38,55 +38,6 @@ function Curtain() {
 }
 
 /* ============================================================
-   CURSOR — sage halo follower
-   ============================================================ */
-function Cursor() {
-  const ringRef = useRef(null);
-  const dotRef = useRef(null);
-  const hotRef = useRef(false);
-
-  useEffect(() => {
-    let rx = 0, ry = 0;       // ring (eased)
-    let dx = 0, dy = 0;       // dot (snappy)
-    let tx = 0, ty = 0;       // target
-    let raf;
-
-    const onMove = (e) => { tx = e.clientX; ty = e.clientY; };
-    const onOver = (e) => {
-      const hot = !!e.target.closest('a, button, .salle, .plate, .agenda__item, .nav__link, .carte__dish, .tonight__cta, .nav__reserve');
-      if (hot !== hotRef.current) {
-        hotRef.current = hot;
-        if (ringRef.current) ringRef.current.classList.toggle('is-hot', hot);
-      }
-    };
-    const tick = () => {
-      rx += (tx - rx) * 0.18;
-      ry += (ty - ry) * 0.18;
-      dx += (tx - dx) * 0.5;
-      dy += (ty - dy) * 0.5;
-      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
-      if (dotRef.current) dotRef.current.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%)`;
-      raf = requestAnimationFrame(tick);
-    };
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerover', onOver);
-    tick();
-    return () => {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerover', onOver);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return (
-    <>
-      <div ref={ringRef} className="cursor" />
-      <div ref={dotRef} className="cursor-dot" />
-    </>
-  );
-}
-
-/* ============================================================
    NAVIGATION
    ============================================================ */
 function Nav({ route, onNav, dark = false, logoFade = 1 }) {
@@ -230,33 +181,43 @@ function Hero({ slides, onReserve }) {
    FOOTER
    ============================================================ */
 function Footer() {
+  const [subscribed, setSubscribed] = useState(false);
+
+  const subscribe = (event) => {
+    event.preventDefault();
+    setSubscribed(true);
+  };
+
   return (
     <footer className="footer">
-      <div className="ft-grid">
-        <div className="ft-brand">
-          <Logo width={220} dark />
-          <p>Une cuisine inspirée et gourmande, sur l’avenue Laurier depuis mars 1995.</p>
-        </div>
-        <div>
-          <div className="ft-h">Nous joindre</div>
-          <div className="ft-line">
-            <a href="tel:5142713095">514&nbsp;271-3095</a><br/>
-            <a href="mailto:info@lachronique.qc.ca">info@lachronique.qc.ca</a><br/>
-            104 av. Laurier Ouest<br/>
-            Montréal · QC · H2T 2N7
+      <div className="footer__main">
+        <div className="footer__contact">
+          <div className="footer__group">
+            <span>Heures d’ouvertures</span>
+            <strong>Tous les jours 18h00-21h30</strong>
+          </div>
+          <div className="footer__group">
+            <span>Téléphone</span>
+            <a href="tel:5142713095">(514) 271-3095</a>
+          </div>
+          <div className="footer__group">
+            <span>Emplacement</span>
+            <strong>104 avenue Laurier Ouest,<br />Montréal, QC, H2T 2N7</strong>
           </div>
         </div>
-        <div>
-          <div className="ft-h">Heures</div>
-          <div className="ft-line">
-            Mardi — Samedi<br/>
-            17 h 30 — 22 h 30<br/>
-            <span style={{ color: 'rgba(255,255,255,0.4)' }}>Fermé dim. et lun.</span>
-          </div>
-        </div>
-        <div>
-          <div className="ft-h">Suivez-nous</div>
-          <div className="ft-social">
+
+        <div className="footer__newsletter">
+          <p>Abonnez-vous à notre infolettre pour connaître nos activités, évènements et promotions!</p>
+          <form className={'footer__form' + (subscribed ? ' is-subscribed' : '')} onSubmit={subscribe}>
+            <label className="sr-only" htmlFor="footer-email">Votre courriel</label>
+            <input id="footer-email" type="email" required placeholder={subscribed ? 'Merci pour votre inscription' : 'Entrez votre courriel ici...'} disabled={subscribed} />
+            <button type="submit" aria-label="S’abonner à l’infolettre" disabled={subscribed}>
+              <svg viewBox="0 0 48 24" aria-hidden="true">
+                <path d="M1 12h42M34 4l9 8-9 8" />
+              </svg>
+            </button>
+          </form>
+          <div className="footer__social">
             <a href="https://www.facebook.com/Restaurant-La-Chronique-156566617717198/" aria-label="Facebook" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
@@ -270,9 +231,9 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="ft-bottom">
-        <span>© Restaurant La Chronique · 1995 — 2026</span>
-        <span>Crédit photo · Fany Ducharme</span>
+      <div className="footer__bottom">
+        <span>© Restaurant La Chronique · 2026</span>
+        <a href="#politique">Politique de confidentialité</a>
       </div>
     </footer>
   );
@@ -428,7 +389,7 @@ function CinemaIntro({ onEnter }) {
                opacity: facadeOp,
                transform: `scale(${facadeKB})`,
                filter: `brightness(${facadeBright}) contrast(${facadeContrast}) saturate(0.92)`,
-               backgroundImage: "url('../../assets/facade-night.webp')",
+               backgroundImage: "url('../../assets/dining-room-collage.jpg')",
                backgroundPosition: 'center center',
              }} />
         <div className="cinema__layer cinema__layer--interior"
@@ -436,7 +397,7 @@ function CinemaIntro({ onEnter }) {
                opacity: interiorOp,
                transform: `scale(${interiorKB})`,
                filter: `brightness(${interiorBright}) contrast(${interiorContrast})`,
-               backgroundImage: "url('../../assets/dining-room-press.jpg')",
+               backgroundImage: "url('../../assets/interieur.avif')",
              }} />
 
         <div className="cinema__vignette"
@@ -609,4 +570,4 @@ function SmoothScroll() {
   return null;
 }
 
-Object.assign(window, { Logo, Curtain, Cursor, Nav, Hero, Footer, CinemaIntro, SmoothScroll });
+Object.assign(window, { Logo, Curtain, Nav, Hero, Footer, CinemaIntro, SmoothScroll });

@@ -1,5 +1,5 @@
 /* global React, ReactDOM */
-/* global Nav, Footer, Cursor, SmoothScroll, CinemaIntro */
+/* global Nav, Footer, SmoothScroll, CinemaIntro */
 const { useState: useStateApp, useEffect: useEffectApp } = React;
 
 function App() {
@@ -33,7 +33,6 @@ function App() {
   return (
     <>
       <SmoothScroll />
-      <Cursor />
       <div className="app">
         <Nav route={route} onNav={setRoute} dark={navDark} logoFade={navLogoFade} />
         <main data-screen-label={route}>{screen}</main>
